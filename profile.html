@@ -89,4 +89,21 @@
     </div>
 
     <button class="btn" onclick="location.href='dashboard.html'">Go to Dashboard</button>
-    <button class="btn" onclick="logout()">
+    <button class="btn" onclick="logout()">Logout</button>
+
+  </div>
+</div>
+
+<script>
+  // Fake user data (Front-End only)
+  document.getElementById("username").innerText = localStorage.getItem("username") || "Guest User";
+  document.getElementById("email").innerText = localStorage.getItem("email") || "guest@example.com";
+
+  function logout() {
+    localStorage.clear();
+    location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>
