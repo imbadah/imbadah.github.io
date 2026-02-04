@@ -208,6 +208,23 @@ function toggleLang() {
 
 let currentTool = "";
 
+/* -----------------------------------
+   📝 إضافة الملف إلى سجل المستخدم
+----------------------------------- */
+function addToHistory(filename) {
+  let history = JSON.parse(localStorage.getItem("history") || "[]");
+
+  history.push({
+    file: filename,
+    date: new Date().toLocaleString()
+  });
+
+  localStorage.setItem("history", JSON.stringify(history));
+}
+
+/* -----------------------------------
+   📌 Open Tool Workspace
+----------------------------------- */
 function openTool(tool) {
   currentTool = tool;
 
@@ -227,11 +244,17 @@ function openTool(tool) {
   document.getElementById("output").innerHTML = "";
 }
 
+/* -----------------------------------
+   🔙 Back to Dashboard
+----------------------------------- */
 function backToDashboard() {
   document.getElementById("dashboard").style.display = "block";
   document.getElementById("workspace").style.display = "none";
 }
 
+/* -----------------------------------
+   🚀 Run Selected Tool
+----------------------------------- */
 async function runTool() {
   const files = document.getElementById("fileInput").files;
   if (!files.length) {
@@ -247,6 +270,9 @@ async function runTool() {
   if (currentTool === "ocr") runOCR(files[0]);
 }
 
+/* -----------------------------------
+   📌 Merge PDF (pdf-lib)
+----------------------------------- */
 async function mergePDF(files) {
   const { PDFDocument } = PDFLib;
   const mergedPdf = await PDFDocument.create();
@@ -260,8 +286,12 @@ async function mergePDF(files) {
 
   const mergedBytes = await mergedPdf.save();
   downloadFile(mergedBytes, "merged.pdf");
+  addToHistory("merged.pdf");
 }
 
+/* -----------------------------------
+   ✂ Split PDF (pdf-lib)
+----------------------------------- */
 async function splitPDF(file) {
   const { PDFDocument } = PDFLib;
   const bytes = await file.arrayBuffer();
@@ -274,9 +304,13 @@ async function splitPDF(file) {
 
     const pdfBytes = await newPdf.save();
     downloadFile(pdfBytes, `page-${i + 1}.pdf`);
+    addToHistory(`page-${i + 1}.pdf`);
   }
 }
 
+/* -----------------------------------
+   🗜 Compress PDF
+----------------------------------- */
 async function compressPDF(file) {
   const compressed = await imageCompression(file, {
     maxSizeMB: 1,
@@ -284,8 +318,12 @@ async function compressPDF(file) {
   });
 
   downloadFile(await compressed.arrayBuffer(), "compressed.pdf");
+  addToHistory("compressed.pdf");
 }
 
+/* -----------------------------------
+   🖼 PDF → Images
+----------------------------------- */
 async function pdfToImages(file) {
   const pdfData = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
@@ -312,9 +350,14 @@ async function pdfToImages(file) {
     link.style.display = "block";
 
     output.appendChild(link);
+
+    addToHistory(`page-${i}.png`);
   }
 }
 
+/* -----------------------------------
+   🖼 Images → PDF
+----------------------------------- */
 async function imagesToPDF(files) {
   const pdf = new jspdf.jsPDF();
 
@@ -326,6 +369,7 @@ async function imagesToPDF(files) {
   }
 
   pdf.save("images.pdf");
+  addToHistory("images.pdf");
 }
 
 function readImage(file) {
@@ -336,6 +380,9 @@ function readImage(file) {
   });
 }
 
+/* -----------------------------------
+   🔍 OCR (Tesseract.js)
+----------------------------------- */
 async function runOCR(file) {
   const output = document.getElementById("output");
   output.innerHTML = "<p>Processing OCR… please wait.</p>";
@@ -345,8 +392,12 @@ async function runOCR(file) {
   });
 
   output.innerHTML = `<textarea style="width:100%;height:200px;">${data.text}</textarea>`;
+  addToHistory("ocr-text.txt");
 }
 
+/* -----------------------------------
+   📥 Download Helper
+----------------------------------- */
 function downloadFile(bytes, filename) {
   const blob = new Blob([bytes], { type: "application/pdf" });
   const link = document.createElement("a");
