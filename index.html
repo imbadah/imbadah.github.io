@@ -1,6 +1,9 @@
 <!DOCTYPE html>
+<html lang="ar">
+
+<!-- 🔐 حماية الصفحة + العربية افتراضية -->
 <script>
-// منع الوصول للصفحات بدون تسجيل دخول
+// منع الوصول للصفحة بدون تسجيل دخول
 if (!localStorage.getItem("email")) {
     window.location.href = "login.html";
 }
@@ -16,7 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PDF SWIFT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- خطوط عربية + إنجليزية -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --primary: #5A67D8;
@@ -32,10 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Cairo', 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       transition: 0.3s;
+      direction: rtl;
+      text-align: right;
     }
     header {
       background: var(--primary);
@@ -94,6 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
       padding: 1.5rem;
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
     }
     .section {
       padding: 3rem 1rem;
@@ -109,11 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
       text-align: center;
       margin-top: 2rem;
     }
-    .lang-ar {
-      display: none;
-      direction: rtl;
-      text-align: right;
-    }
+    .lang-ar { display: block; }
+    .lang-en { display: none; direction: ltr; text-align: left; }
   </style>
 </head>
 
@@ -123,15 +129,14 @@ document.addEventListener("DOMContentLoaded", () => {
   <strong style="font-size: 1.3rem;">PDF SWIFT</strong>
 
   <nav>
-    <a onclick="scrollToSection('tools')">Tools</a>
-    <a onclick="scrollToSection('about')">About</a>
-    <a onclick="scrollToSection('contact')">Contact</a>
-    <a href="login.html">Login</a>
-    <a href="signup.html">Sign Up</a>
+    <a onclick="scrollToSection('tools')">الأدوات</a>
+    <a onclick="scrollToSection('about')">من نحن</a>
+    <a onclick="scrollToSection('contact')">تواصل معنا</a>
+    <a href="dashboard.html">لوحة التحكم</a>
   </nav>
 
   <div>
-    <button class="toggle" onclick="toggleLang()">EN / AR</button>
+    <button class="toggle" onclick="toggleLang()">AR / EN</button>
     <button class="toggle" onclick="toggleMode()">☀ / 🌙</button>
   </div>
 </header>
@@ -140,111 +145,107 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <!-- HERO -->
   <section class="hero">
-    <h1 class="lang-en">Fast, Secure, and Professional PDF Tools</h1>
     <h1 class="lang-ar">أدوات PDF سريعة وآمنة واحترافية</h1>
+    <h1 class="lang-en">Fast, Secure, and Professional PDF Tools</h1>
 
-    <p class="lang-en">PDF SWIFT provides powerful online tools to merge, split, compress, convert, and extract text from PDF files.</p>
     <p class="lang-ar">يوفر PDF SWIFT أدوات قوية لدمج وتقسيم وضغط وتحويل واستخراج النصوص من ملفات PDF.</p>
+    <p class="lang-en">PDF SWIFT provides powerful tools to merge, split, compress, convert, and extract text from PDF files.</p>
 
-    <button class="btn lang-en" onclick="scrollToSection('tools')">Get Started</button>
     <button class="btn lang-ar" onclick="scrollToSection('tools')">ابدأ الآن</button>
+    <button class="btn lang-en" onclick="scrollToSection('tools')">Get Started</button>
   </section>
 
   <!-- TOOLS -->
   <section id="tools" class="section">
-    <h2 class="lang-en">All Your PDF Tools in One Place</h2>
     <h2 class="lang-ar">جميع أدوات PDF في مكان واحد</h2>
+    <h2 class="lang-en">All Your PDF Tools in One Place</h2>
 
     <div class="grid">
       <div class="card" onclick="location.href='tools.html'">
-        <h3>Merge PDF</h3>
-        <p class="lang-en">Combine multiple PDF files into one.</p>
-        <p class="lang-ar">دمج عدة ملفات PDF في ملف واحد.</p>
+        <h3>دمج PDF</h3>
       </div>
 
       <div class="card" onclick="location.href='tools.html'">
-        <h3>Split PDF</h3>
-        <p class="lang-en">Extract pages or split files.</p>
-        <p class="lang-ar">استخراج الصفحات أو تقسيم الملفات.</p>
+        <h3>تقسيم PDF</h3>
       </div>
 
       <div class="card" onclick="location.href='tools.html'">
-        <h3>Compress PDF</h3>
-        <p class="lang-en">Reduce file size with high quality.</p>
-        <p class="lang-ar">تقليل حجم الملف مع الحفاظ على الجودة.</p>
+        <h3>ضغط PDF</h3>
       </div>
 
       <div class="card" onclick="location.href='tools.html'">
-        <h3>Convert PDF</h3>
-        <p class="lang-en">Convert PDF to images or vice versa.</p>
-        <p class="lang-ar">تحويل PDF إلى صور أو العكس.</p>
+        <h3>تحويل PDF</h3>
       </div>
 
       <div class="card" onclick="location.href='tools.html'">
-        <h3>OCR</h3>
-        <p class="lang-en">Extract text from scanned PDFs.</p>
-        <p class="lang-ar">استخراج النصوص من ملفات PDF الممسوحة ضوئيًا.</p>
+        <h3>استخراج النصوص OCR</h3>
       </div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section id="about" class="section">
-    <h2 class="lang-en">Why Choose PDF SWIFT?</h2>
     <h2 class="lang-ar">لماذا تختار PDF SWIFT؟</h2>
+    <h2 class="lang-en">Why Choose PDF SWIFT?</h2>
 
     <ul>
-      <li>Fast Processing</li>
-      <li>Secure & Private</li>
-      <li>Easy to Use</li>
-      <li>Multi-Language Support</li>
-      <li>Light & Dark Mode</li>
+      <li>سرعة عالية</li>
+      <li>خصوصية وأمان</li>
+      <li>سهولة الاستخدام</li>
+      <li>دعم لغات متعددة</li>
+      <li>الوضع الليلي</li>
     </ul>
   </section>
 
   <!-- CONTACT -->
   <section id="contact" class="section">
-    <h2 class="lang-en">Contact Us</h2>
     <h2 class="lang-ar">تواصل معنا</h2>
+    <h2 class="lang-en">Contact Us</h2>
 
     <form>
-      <input class="lang-en" type="text" placeholder="Your Name">
-      <input class="lang-en" type="email" placeholder="Your Email">
-      <textarea class="lang-en" placeholder="Your Message"></textarea>
-
       <input class="lang-ar" type="text" placeholder="اسمك">
       <input class="lang-ar" type="email" placeholder="بريدك الإلكتروني">
       <textarea class="lang-ar" placeholder="رسالتك"></textarea>
 
-      <button class="btn lang-en" type="submit">Send Message</button>
+      <input class="lang-en" type="text" placeholder="Your Name">
+      <input class="lang-en" type="email" placeholder="Your Email">
+      <textarea class="lang-en" placeholder="Your Message"></textarea>
+
       <button class="btn lang-ar" type="submit">إرسال</button>
+      <button class="btn lang-en" type="submit">Send Message</button>
     </form>
   </section>
 
 </div>
 
 <footer>
-  <p class="lang-en">© 2026 PDF SWIFT — All Rights Reserved.</p>
   <p class="lang-ar">© 2026 PDF SWIFT — جميع الحقوق محفوظة.</p>
+  <p class="lang-en">© 2026 PDF SWIFT — All Rights Reserved.</p>
 </footer>
 
 <script>
-  function toggleMode() {
-    document.body.classList.toggle('dark');
-  }
+function toggleMode() {
+  document.body.classList.toggle('dark');
+}
 
-  function toggleLang() {
-    document.querySelectorAll('.lang-en').forEach(e => e.style.display = e.style.display === 'none' ? '' : 'none');
-    document.querySelectorAll('.lang-ar').forEach(e => e.style.display = e.style.display === 'none' ? '' : 'none');
-  }
+function toggleLang() {
+  const ar = document.querySelectorAll('.lang-ar');
+  const en = document.querySelectorAll('.lang-en');
 
-  function scrollToSection(id) {
-    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-  }
+  const isArabic = ar[0].style.display !== 'none';
 
-  document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('.lang-ar').forEach(e => e.style.display = 'none');
-  });
+  if (isArabic) {
+    ar.forEach(e => e.style.display = 'none');
+    en.forEach(e => e.style.display = '');
+  } else {
+    en.forEach(e => e.style.display = 'none');
+    ar.forEach(e => e.style.display = '');
+  }
+}
+
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
 </script>
 
 </body>
