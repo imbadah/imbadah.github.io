@@ -1,327 +1,536 @@
 <!DOCTYPE html>
-<html lang="ar">
-
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF SWIFT | الأدوات</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Swift | الأدوات</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- خطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background: #f3f4f6;
-      color: #1a202c;
-      direction: rtl;
-      text-align: right;
-    }
+    <!-- أيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    /* الهيدر */
-    header {
-      background: #5A67D8;
-      padding: 1rem 2rem;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    <!-- مكتبات PDF عبر CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
-    .logo {
-      height: 45px;
-    }
+    <style>
+     <script>
+/* فتح المودال */
+function openTool(tool) {
+    const modal = document.getElementById("toolModal");
+    const title = document.getElementById("modalTitle");
+    const desc = document.getElementById("modalDesc");
+    const dynamicInputs = document.getElementById("dynamicInputs");
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .nav-links svg {
-      width: 24px;
-      height: 24px;
-      margin-bottom: 3px;
-    }
-
-    /* Dropdown */
-    .user-menu {
-      position: relative;
-      cursor: pointer;
-    }
-
-    .user-menu-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-    }
-
-    .dropdown {
-      position: absolute;
-      top: 45px;
-      right: 0;
-      background: white;
-      color: #333;
-      min-width: 160px;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-      padding: 0.5rem 0;
-      display: none;
-      animation: fadeSlide 0.25s ease;
-      z-index: 999;
-    }
-
-    .dropdown a {
-      display: block;
-      padding: 0.7rem 1rem;
-      color: #333;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .dropdown a:hover {
-      background: #f3f4f6;
-    }
-
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* الأدوات */
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 2rem;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 1.8rem;
-      color: #333;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .tool-card {
-      background: white;
-      padding: 1.8rem;
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      text-align: center;
-      cursor: pointer;
-      transition: 0.25s;
-    }
-
-    .tool-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
-    .tool-card h3 {
-      margin: 0;
-      font-size: 1.2rem;
-      color: #333;
-    }
-
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 2rem;
-      width: 90%;
-      max-width: 400px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .modal-btn, .modal-close {
-      margin-top: 1rem;
-      padding: 0.8rem;
-      width: 100%;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    .modal-btn {
-      background: #5A67D8;
-      color: white;
-    }
-
-    .modal-close {
-      background: #ddd;
-    }
-
-    /* الجوال */
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .logo { height: 38px; }
-      .nav-links a { font-size: 0.75rem; }
-      .nav-links svg { width: 20px; height: 20px; }
-      .grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-
-<body>
-
-<!-- الهيدر الجديد -->
-<header>
-  <img src="https://raw.githubusercontent.com/imbadah/PdfSwift/main/logo.png" class="logo">
-  <nav id="nav-area" class="nav-links"></nav>
-</header>
-
-<div class="container">
-  <h2>الأدوات المتاحة</h2>
-
-  <div class="grid">
-
-    <div class="tool-card" onclick="openTool('دمج PDF', 'قم بدمج عدة ملفات PDF في ملف واحد.')"><h3>دمج PDF</h3></div>
-    <div class="tool-card" onclick="openTool('تقسيم PDF', 'قم بتقسيم ملف PDF إلى عدة ملفات.')"><h3>تقسيم PDF</h3></div>
-    <div class="tool-card" onclick="openTool('ضغط PDF', 'قم بتقليل حجم ملف PDF بسهولة.')"><h3>ضغط PDF</h3></div>
-    <div class="tool-card" onclick="openTool('PDF إلى Word', 'حوّل ملفات PDF إلى Word بسهولة.')"><h3>PDF إلى Word</h3></div>
-    <div class="tool-card" onclick="openTool('Word إلى PDF', 'حوّل ملفات Word إلى PDF.')"><h3>Word إلى PDF</h3></div>
-    <div class="tool-card" onclick="openTool('PDF إلى JPG', 'حوّل صفحات PDF إلى صور JPG.')"><h3>PDF إلى JPG</h3></div>
-    <div class="tool-card" onclick="openTool('JPG إلى PDF', 'حوّل الصور إلى ملف PDF.')"><h3>JPG إلى PDF</h3></div>
-    <div class="tool-card" onclick="openTool('حماية PDF', 'أضف كلمة مرور لملف PDF.')"><h3>حماية PDF</h3></div>
-    <div class="tool-card" onclick="openTool('إزالة كلمة المرور', 'قم بإزالة كلمة المرور من ملف PDF.')"><h3>إزالة كلمة المرور</h3></div>
-    <div class="tool-card" onclick="openTool('تدوير الصفحات', 'قم بتدوير صفحات PDF.')"><h3>تدوير الصفحات</h3></div>
-    <div class="tool-card" onclick="openTool('استخراج الصفحات', 'استخرج صفحات محددة من ملف PDF.')"><h3>استخراج الصفحات</h3></div>
-    <div class="tool-card" onclick="openTool('إعادة ترتيب الصفحات', 'أعد ترتيب صفحات ملف PDF.')"><h3>إعادة ترتيب الصفحات</h3></div>
-
-  </div>
-</div>
-
-<!-- Modal -->
-<div id="toolModal" class="modal">
-  <div class="modal-content">
-    <h3 id="modalTitle">عنوان الأداة</h3>
-    <p id="modalDesc">وصف الأداة سيظهر هنا.</p>
-
-    <input type="file" id="fileInput" />
-
-    <button class="modal-btn" onclick="startTool()">تنفيذ</button>
-    <button class="modal-close" onclick="closeModal()">إغلاق</button>
-  </div>
-</div>
-
-<script>
-  const nav = document.getElementById("nav-area");
-  const username = localStorage.getItem("username");
-
-  const icons = {
-    home: `<svg fill="url(#grad)" viewBox="0 0 24 24">
-      <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7F9CF5"/><stop offset="100%" stop-color="#5A67D8"/></linearGradient></defs>
-      <path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-10.5z"/></svg>`,
-
-    tools: `<svg fill="url(#grad)" viewBox="0 0 24 24">
-      <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7F9CF5"/><stop offset="100%" stop-color="#5A67D8"/></linearGradient></defs>
-      <path d="M14.7 6.3l3 3-8.4 8.4H6.3v-3l8.4-8.4zM19.7 4.3a1 1 0 0 0-1.4 0l-1.6 1.6 3 3 1.6-1.6a1 1 0 0 0 0-1.4l-1.6-1.6z"/></svg>`
-  };
-
-  if (!username) {
-    nav.innerHTML = `
-      <a href="index.html">${icons.home} الرئيسية</a>
-      <a href="tools.html">${icons.tools} الأدوات</a>
-      <a href="login.html">تسجيل الدخول</a>
-      <a href="signup.html">إنشاء حساب</a>
-    `;
-  } else {
-    nav.innerHTML = `
-      <a href="index.html">${icons.home} الرئيسية</a>
-      <a href="tools.html">${icons.tools} الأدوات</a>
-
-      <div class="user-menu" id="userMenu">
-        <div class="user-menu-btn">
-          <svg fill="white" width="26" height="26" viewBox="0 0 24 24">
-            <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4 0-8 2-8 5v2h16v-2c0-3-4-5-8-5z"/>
-          </svg>
-          ${username}
-        </div>
-
-        <div class="dropdown" id="dropdownMenu">
-          <a href="dashboard.html">لوحة التحكم</a>
-          <a href="profile.html">الملف الشخصي</a>
-          <a href="#" onclick="logout()">تسجيل الخروج</a>
-        </div>
-      </div>
-    `;
-
-    const userMenu = document.getElementById("userMenu");
-    const dropdown = document.getElementById("dropdownMenu");
-
-    userMenu.addEventListener("click", () => {
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!userMenu.contains(e.target)) dropdown.style.display = "none";
-    });
-  }
-
-  function logout() {
-    localStorage.clear();
-    location.href = "index.html";
-  }
-
-  /* Modal Functions */
-  const modal = document.getElementById("toolModal");
-  const modalTitle = document.getElementById("modalTitle");
-  const modalDesc = document.getElementById("modalDesc");
-
-  function openTool(name, desc) {
-    modalTitle.innerText = name;
-    modalDesc.innerText = desc;
     modal.style.display = "flex";
-  }
 
-  function closeModal() {
-    modal.style.display = "none";
-  }
+    // إعادة تعيين المدخلات
+    dynamicInputs.innerHTML = "";
+    document.getElementById("fileInput").value = "";
 
-  function startTool() {
-    alert("سيتم تنفيذ الأداة لاحقاً بعد إضافة المعالجة الفعلية.");
-  }
+    // تخصيص كل أداة
+    switch (tool) {
+        case "merge":
+            title.textContent = "دمج ملفات PDF";
+            desc.textContent = "اختر عدة ملفات PDF وسيتم دمجها في ملف واحد.";
+            break;
 
-  window.onclick = function(e) {
-    if (e.target === modal) modal.style.display = "none";
-  }
+        case "split":
+            title.textContent = "تقسيم PDF";
+            desc.textContent = "اختر ملف PDF وسيتم تقسيمه إلى صفحات منفصلة.";
+            break;
+
+        case "compress":
+            title.textContent = "ضغط PDF";
+            desc.textContent = "اختر ملف PDF وسيتم تقليل حجمه.";
+            break;
+
+        case "pdf_to_jpg":
+            title.textContent = "تحويل PDF إلى JPG";
+            desc.textContent = "اختر ملف PDF وسيتم تحويل كل صفحة إلى صورة.";
+            break;
+
+        case "jpg_to_pdf":
+            title.textContent = "تحويل JPG إلى PDF";
+            desc.textContent = "اختر صور JPG وسيتم دمجها في ملف PDF.";
+            break;
+
+        case "protect":
+            title.textContent = "حماية PDF بكلمة مرور";
+            desc.textContent = "اختر ملف PDF ثم أدخل كلمة المرور.";
+            dynamicInputs.innerHTML = `
+                <label>كلمة المرور:</label>
+                <input type="password" id="passwordInput" class="input-field">
+            `;
+            break;
+
+        case "unlock":
+            title.textContent = "إزالة كلمة المرور";
+            desc.textContent = "اختر ملف PDF وسيتم إزالة كلمة المرور منه.";
+            break;
+
+        case "rotate":
+            title.textContent = "تدوير الصفحات";
+            desc.textContent = "اختر ملف PDF واختر زاوية التدوير.";
+            dynamicInputs.innerHTML = `
+                <label>زاوية التدوير:</label>
+                <select id="rotateAngle" class="input-field">
+                    <option value="90">90°</option>
+                    <option value="180">180°</option>
+                    <option value="270">270°</option>
+                </select>
+            `;
+            break;
+
+        case "extract":
+            title.textContent = "استخراج صفحات";
+            desc.textContent = "اختر ملف PDF وحدد أرقام الصفحات.";
+            dynamicInputs.innerHTML = `
+                <label>أرقام الصفحات (مثال: 1,3,5):</label>
+                <input type="text" id="pagesInput" class="input-field">
+            `;
+            break;
+
+        case "reorder":
+            title.textContent = "إعادة ترتيب الصفحات";
+            desc.textContent = "اختر ملف PDF وحدد الترتيب الجديد.";
+            dynamicInputs.innerHTML = `
+                <label>الترتيب الجديد (مثال: 3,1,2):</label>
+                <input type="text" id="orderInput" class="input-field">
+            `;
+            break;
+    }
+/* تنفيذ الأداة */
+async function startTool() {
+    const files = document.getElementById("fileInput").files;
+
+    if (!files.length) {
+        alert("الرجاء اختيار ملف واحد على الأقل");
+        return;
+    }
+
+    switch (window.currentTool) {
+
+        /* دمج ملفات PDF */
+        case "merge":
+            await mergePDF(files);
+            break;
+
+        /* تقسيم PDF */
+        case "split":
+            await splitPDF(files[0]);
+            break;
+
+        /* ضغط PDF */
+        case "compress":
+            await compressPDF(files[0]);
+            break;
+
+        /* PDF → JPG */
+        case "pdf_to_jpg":
+            await pdfToJpg(files[0]);
+            break;
+
+        /* JPG → PDF */
+        case "jpg_to_pdf":
+            await jpgToPdf(files);
+            break;
+
+        /* حماية PDF */
+        case "protect":
+            await protectPDF(files[0]);
+            break;
+
+        /* إزالة كلمة المرور */
+        case "unlock":
+            await unlockPDF(files[0]);
+            break;
+
+        /* تدوير الصفحات */
+        case "rotate":
+            await rotatePDF(files[0]);
+            break;
+
+        /* استخراج صفحات */
+        case "extract":
+            await extractPages(files[0]);
+            break;
+
+        /* إعادة ترتيب الصفحات */
+        case "reorder":
+            await reorderPDF(files[0]);
+            break;
+    }
+}
+
+/* دمج PDF */
+async function mergePDF(files) {
+    const mergedPdf = await PDFLib.PDFDocument.create();
+
+    for (let file of files) {
+        const bytes = await file.arrayBuffer();
+        const pdf = await PDFLib.PDFDocument.load(bytes);
+        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+        copiedPages.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    const mergedBytes = await mergedPdf.save();
+    downloadFile(mergedBytes, "merged.pdf");
+}
+
+/* تقسيم PDF */
+async function splitPDF(file) {
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFLib.PDFDocument.load(bytes);
+
+    for (let i = 0; i < pdf.getPageCount(); i++) {
+        const newPdf = await PDFLib.PDFDocument.create();
+        const [page] = await newPdf.copyPages(pdf, [i]);
+        newPdf.addPage(page);
+
+        const pdfBytes = await newPdf.save();
+        downloadFile(pdfBytes, `page-${i + 1}.pdf`);
+    }
+}
+
+/* ضغط PDF (تقليل الجودة) */
+async function compressPDF(file) {
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFLib.PDFDocument.load(bytes);
+
+    const compressed = await pdf.save({ useObjectStreams: true });
+    downloadFile(compressed, "compressed.pdf");
+}
+
+/* PDF → JPG */
+async function pdfToJpg(file) {
+    const url = URL.createObjectURL(file);
+    const pdf = await pdfjsLib.getDocument(url).promise;
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 2 });
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({ canvasContext: ctx, viewport }).promise;
+
+        canvas.toBlob((blob) => {
+            downloadFile(blob, `page-${i}.jpg`);
+        }, "image/jpeg");
+    }
+}
+
+/* JPG → PDF */
+async function jpgToPdf(files) {
+    const pdf = new jspdf.jsPDF();
+
+    for (let i = 0; i < files.length; i++) {
+        const img = await readImage(files[i]);
+        pdf.addImage(img, "JPEG", 10, 10, 190, 260);
+
+        if (i < files.length - 1) pdf.addPage();
+    }
+
+    pdf.save("images.pdf");
+}
+
+function readImage(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.readAsDataURL(file);
+    });
+}
+
+/* حماية PDF */
+async function protectPDF(file) {
+    const password = document.getElementById("passwordInput").value;
+    if (!password) return alert("الرجاء إدخال كلمة المرور");
+
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFLib.PDFDocument.load(bytes);
+
+    const encrypted = await pdf.save({
+        encrypt: {
+            userPassword: password,
+            ownerPassword: password,
+        },
+    });
+
+    downloadFile(encrypted, "protected.pdf");
+}
+
+/* إزالة كلمة المرور */
+async function unlockPDF(file) {
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+
+    const unlocked = await pdf.save();
+    downloadFile(unlocked, "unlocked.pdf");
+}
+
+/* تدوير PDF */
+async function rotatePDF(file) {
+    const angle = parseInt(document.getElementById("rotateAngle").value);
+
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFLib.PDFDocument.load(bytes);
+
+    pdf.getPages().forEach((page) => page.setRotation(angle));
+
+    const rotated = await pdf.save();
+    downloadFile(rotated, "rotated.pdf");
+}
+
+/* استخراج صفحات */
+async function extractPages(file) {
+    const pagesInput = document.getElementById("pagesInput").value;
+    const pages = pagesInput.split(",").map((n) => parseInt(n.trim()) - 1);
+
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFLib.PDFDocument.load(bytes);
+
+    const newPdf = await PDFLib.PDFDocument.create();
+    const copied = await newPdf.copyPages(pdf, pages);
+    copied.forEach((p) => newPdf.addPage(p));
+
+    const extracted = await newPdf.save();
+    downloadFile(extracted, "extracted.pdf");
+}
+
+/* إعادة ترتيب الصفحات */
+async function reorderPDF(file) {
+    const orderInput = document.getElementById("orderInput").value;
+    const order = orderInput.split(",").map((n) => parseInt(n.trim()) - 1);
+
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFLib.PDFDocument.load(bytes);
+
+    const newPdf = await PDFLib.PDFDocument.create();
+    const copied = await newPdf.copyPages(pdf, order);
+    copied.forEach((p) => newPdf.addPage(p));
+
+    const reordered = await newPdf.save();
+    downloadFile(reordered, "reordered.pdf");
+}
+
+/* تحميل ملف */
+function downloadFile(data, filename) {
+    const blob = data instanceof Blob ? data : new Blob([data]);
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+}
+
+    // حفظ الأداة المختارة
+    window.currentTool = tool;
+}
+
+/* إغلاق المودال */
+function closeModal() {
+    document.getElementById("toolModal").style.display = "none";
+}
 </script>
 
 </body>
 </html>
+
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #C084FC, #818CF8, #60A5FA);
+            background-size: 200% 200%;
+            animation: gradientMove 12s ease infinite;
+            color: #fff;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header {
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .nav a {
+            margin-left: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav a:hover,
+        .nav .active {
+            color: #FFD6FF;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            padding: 40px;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(14px);
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .tool-card i {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .tool-card h3 {
+            margin: 10px 0;
+            font-size: 22px;
+        }
+
+        .tool-card p {
+            opacity: 0.85;
+        }
+/* تكملة تصميم الـ Modal */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    width: 420px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(18px);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.close {
+    float: left;
+    font-size: 26px;
+    cursor: pointer;
+    color: #fff;
+    margin-top: -10px;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 26px;
+}
+
+.modal-content p {
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+/* رفع الملفات */
+.file-label {
+    display: block;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 14px;
+    border-radius: 14px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    transition: 0.3s;
+}
+
+.file-label:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.file-label i {
+    margin-left: 8px;
+}
+
+.file-label input {
+    display: none;
+}
+
+/* زر التنفيذ */
+.action-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: linear-gradient(135deg, #C084FC, #818CF8);
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.action-btn:hover {
+    opacity: 0.9;
+}
