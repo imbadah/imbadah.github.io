@@ -1,57 +1,45 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>PdfSwift | من نحن</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PdfSwift — جميع أدوات PDF في مكان واحد، دمج، تقسيم، حذف، ترتيب، ضغط ملفات PDF مباشرة.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>عن PdfSwift</title>
   <link rel="stylesheet" href="style.css">
 </head>
+<body class="light-theme">
 
-<body>
-
-  <!-- ================= HEADER ================= -->
-  <header>
-    <div class="nav">
-      <div class="logo">PdfSwift</div>
-      <a href="index.html" class="btn">الرئيسية</a>
-      <a href="tools.html" class="btn">الأدوات</a>
-    </div>
+  <header class="header"> <!-- نفس الـ header من index.html أو tools.html --> 
+    <!-- ... انسخ الـ header هنا ... -->
   </header>
 
-  <!-- ================= HERO / ABOUT ================= -->
-  <section class="hero">
+  <main class="container" style="padding: 5rem 1rem; max-width: 800px;">
     <h1>عن PdfSwift</h1>
-    <p>
-      PdfSwift هو موقع يقدم لك جميع أدوات ملفات PDF بطريقة سريعة وآمنة، بدون الحاجة لأي رفع للملفات على الإنترنت.  
-      يمكنك دمج، تقسيم، حذف، ترتيب، تدوير وضغط ملفات PDF مباشرة من المتصفح.
-    </p>
-  </section>
-
-  <!-- ================= ABOUT CONTENT ================= -->
-  <section class="section">
-    <h2>حول المطور</h2>
-    <p>
-      تم تطوير الموقع بواسطة <strong>بداح الغنامي</strong> لتسهيل التعامل مع ملفات PDF لجميع المستخدمين.  
-      الهدف هو تقديم أدوات سهلة وسريعة وآمنة للعمل من أي جهاز، دون الحاجة لأي برامج خارجية.
+    
+    <p style="font-size: 1.2rem; line-height: 1.8;">
+      PdfSwift هو مشروع مفتوح المصدر يهدف إلى توفير أدوات PDF بسيطة وقوية تعمل مباشرة داخل المتصفح بدون الحاجة إلى رفع الملفات إلى سيرفرات خارجية.
     </p>
 
-    <h2>التواصل مع المطور</h2>
-    <p>يمكنك التواصل معي من خلال أيقونات التواصل في أسفل الصفحة.</p>
-  </section>
+    <h2>الأهداف الرئيسية</h2>
+    <ul style="font-size: 1.15rem; line-height: 1.8; margin: 1.5rem 0;">
+      <li>الحفاظ على خصوصية المستخدمين</li>
+      <li>سرعة المعالجة (client-side فقط)</li>
+      <li>دعم اللغة العربية بشكل كامل (RTL)</li>
+      <li>تصميم نظيف وعصري</li>
+      <li>إمكانية التوسع بأدوات إضافية مستقبلاً</li>
+    </ul>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="footer-content">
-      <span>© 2026 PdfSwift — تواصل مع المطور</span>
+    <h2>التقنيات المستخدمة</h2>
+    <p>HTML + CSS + JavaScript نقي، مع مكتبة <strong>pdf-lib</strong> لمعالجة الملفات PDF.</p>
 
-      <div class="social-icons">
-        <a class="x" href="https://x.com/BADAH_AI" target="_blank" aria-label="X"></a>
-        <a class="whatsapp" href="https://wa.me/966590211191" target="_blank" aria-label="WhatsApp"></a>
-        <a class="telegram" href="https://t.me/966590211191" target="_blank" aria-label="Telegram"></a>
-      </div>
-    </div>
-  </footer>
+    <p style="margin-top: 3rem;">
+      <a href="https://github.com/imbadah/PdfSwift" target="_blank" class="btn btn-primary">
+        <i class="fab fa-github"></i> زيارة المشروع على GitHub
+      </a>
+    </p>
+  </main>
 
+  <footer class="footer"> <!-- نفس الـ footer --> </footer>
+
+  <script src="theme.js"></script>
 </body>
 </html>
