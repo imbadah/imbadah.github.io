@@ -1,38 +1,96 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>PdfSwift | أدوات PDF سريعة</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="أدوات PDF مجانية وسريعة: ضغط، تقسيم، دمج، تحويل، وأكثر بدون تسجيل."/>
+  <title>PdfSwift – أدوات PDF سريعة ومجانية</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="light-theme">  <!-- نبدأ بوضع فاتح افتراضي -->
 
-<header>
-  <div class="nav">
-    <div class="logo">PdfSwift</div>
-    <a href="tools.html" class="btn">الأدوات</a>
-    <a href="about.html" class="btn">من نحن</a>
-    <a href="privacy.html" class="btn">سياسة الخصوصية</a>
-  </div>
-</header>
+  <!-- Header ثابت -->
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        Pdf<span>Swift</span>
+      </a>
 
-<section class="hero">
-  <h1>أدوات PDF سريعة وآمنة</h1>
-  <p>ادمج، قسم، حذف، ترتيب، ضغط ملفات PDF مباشرة من المتصفح بدون رفع أي ملفات.</p>
-  <a href="tools.html" class="btn">الانتقال للأدوات</a>
-</section>
+      <nav class="nav">
+        <a href="index.html" class="active">الرئيسية</a>
+        <a href="tools.html">الأدوات</a>
+        <a href="about.html">عن الموقع</a>
+        <a href="privacy.html">سياسة الخصوصية</a>
+      </nav>
 
-<footer class="footer">
-  <div class="footer-content">
-    <span>© 2026 PdfSwift — تواصل مع المطور</span>
-    <div class="social-icons">
-      <a class="x" href="https://x.com/BADAH_AI" target="_blank" aria-label="X"></a>
-      <a class="whatsapp" href="https://wa.me/966590211191" target="_blank" aria-label="WhatsApp"></a>
-      <a class="telegram" href="https://t.me/966590211191" target="_blank" aria-label="Telegram"></a>
+      <button id="themeToggle" class="theme-btn" aria-label="تبديل الوضع">
+        <i class="fa-solid fa-moon-stars"></i>
+      </button>
     </div>
-  </div>
-</footer>
+  </header>
 
+  <!-- Hero Section -->
+  <section class="hero fade-in">
+    <div class="container">
+      <h1>أدوات PDF بسيطة وسريعة في متصفحك</h1>
+      <p class="lead">ضغط، دمج، تقسيم، تحويل، إضافة علامة مائية... كل ذلك مجاناً وبدون تحميل برامج أو تسجيل دخول.</p>
+      <a href="tools.html" class="btn btn-primary">جرب الأدوات الآن</a>
+    </div>
+  </section>
+
+  <!-- Features / Tools Preview -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">الأدوات الشائعة</h2>
+      <div class="grid">
+        <div class="tool-card fade-in">
+          <i class="fa-solid fa-compress-arrows-alt"></i>
+          <h3>ضغط PDF</h3>
+          <p>قلّص حجم الملف مع الحفاظ على الجودة العالية</p>
+        </div>
+        
+        <div class="tool-card fade-in">
+          <i class="fa-solid fa-scissors"></i>
+          <h3>تقسيم PDF</h3>
+          <p>قسّم ملف PDF كبير إلى ملفات متعددة</p>
+        </div>
+        
+        <div class="tool-card fade-in">
+          <i class="fa-solid fa-object-group"></i>
+          <h3>دمج PDF</h3>
+          <p>اجمع عدة ملفات PDF في ملف واحد مرتب</p>
+        </div>
+        
+        <div class="tool-card fade-in">
+          <i class="fa-solid fa-file-export"></i>
+          <h3>تحويل PDF</h3>
+          <p>PDF إلى Word، JPG، Excel والعكس</p>
+        </div>
+      </div>
+      
+      <div class="text-center" style="margin-top: 3rem;">
+        <a href="tools.html" class="btn btn-outline">عرض جميع الأدوات</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 PdfSwift – جميع الحقوق محفوظة</p>
+      <div class="footer-links">
+        <a href="privacy.html">سياسة الخصوصية</a>
+        <a href="about.html">عن الموقع</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="theme.js"></script>
+  <!-- يمكن إضافة script لـ fade-in لاحقاً إذا أردنا تحسين -->
 </body>
 </html>
