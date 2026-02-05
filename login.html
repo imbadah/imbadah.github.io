@@ -1,75 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | PDF SWIFT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>تسجيل الدخول | PDF SWIFT</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #f3f4f6;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #5A67D8, #7F9CF5);
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      direction: rtl;
+      text-align: right;
     }
-    .card {
+
+    .login-box {
       background: white;
+      width: 90%;
+      max-width: 380px;
       padding: 2rem;
-      width: 350px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
       text-align: center;
     }
+
+    .logo {
+      width: 90px;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
     input {
       width: 100%;
       padding: 0.8rem;
-      margin: 0.5rem 0;
-      border-radius: 6px;
+      margin-top: 0.7rem;
       border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
     }
+
     .btn {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.9rem;
       background: #5A67D8;
       color: white;
       border: none;
       border-radius: 6px;
-      cursor: pointer;
       margin-top: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .google-btn {
+      background: white;
+      color: #444;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .google-btn img {
+      width: 22px;
+    }
+
+    .lang-en { display: none; direction: ltr; text-align: left; }
+    .lang-ar { display: block; }
+    .toggle {
+      margin-top: 1rem;
+      background: none;
+      border: none;
+      color: #5A67D8;
+      cursor: pointer;
+      font-weight: 600;
     }
   </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>Login</h2>
+<div class="login-box">
 
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+  <!-- شعار -->
+  <img src="https://ui-avatars.com/api/?name=PDF+SWIFT&background=5A67D8&color=fff&size=128" class="logo">
 
-  <button class="btn" onclick="login()">Login</button>
+  <h2 class="lang-ar">تسجيل الدخول</h2>
+  <h2 class="lang-en">Login</h2>
 
-  <a href="signup.html">Don't have an account? Sign up</a>
+  <input id="email" type="email" class="lang-ar" placeholder="البريد الإلكتروني">
+  <input id="email-en" type="email" class="lang-en" placeholder="Email">
+
+  <input id="password" type="password" class="lang-ar" placeholder="كلمة المرور">
+  <input id="password-en" type="password" class="lang-en" placeholder="Password">
+
+  <button class="btn lang-ar" onclick="login()">دخول</button>
+  <button class="btn lang-en" onclick="login()">Login</button>
+
+  <!-- تسجيل دخول عبر Google -->
+  <button class="btn google-btn" onclick="googleLogin()">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
+    <span class="lang-ar">تسجيل الدخول عبر Google</span>
+    <span class="lang-en">Sign in with Google</span>
+  </button>
+
+  <button class="toggle" onclick="toggleLang()">AR / EN</button>
+
+  <p style="margin-top:1rem;">
+    <a href="signup.html" style="color:#333; text-decoration:none;" class="lang-ar">إنشاء حساب جديد</a>
+    <a href="signup.html" style="color:#333; text-decoration:none;" class="lang-en">Create Account</a>
+  </p>
+
 </div>
 
 <script>
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+function toggleLang() {
+  const ar = document.querySelectorAll('.lang-ar');
+  const en = document.querySelectorAll('.lang-en');
 
-  if (
-    email === localStorage.getItem("email") &&
-    password === localStorage.getItem("password")
-  ) {
-    location.href = "dashboard.html";
+  const isArabic = ar[0].style.display !== 'none';
+
+  if (isArabic) {
+    ar.forEach(e => e.style.display = 'none');
+    en.forEach(e => e.style.display = 'block');
   } else {
-    alert("Incorrect email or password");
+    en.forEach(e => e.style.display = 'none');
+    ar.forEach(e => e.style.display = 'block');
   }
+}
+
+// تسجيل دخول عادي
+function login() {
+  const email = document.getElementById("email").value || document.getElementById("email-en").value;
+  const password = document.getElementById("password").value || document.getElementById("password-en").value;
+
+  if (!email || !password) {
+    alert("الرجاء إدخال البريد وكلمة المرور");
+    return;
+  }
+
+  localStorage.setItem("email", email);
+  localStorage.setItem("username", email.split("@")[0]);
+
+  location.href = "dashboard.html";
+}
+
+// تسجيل دخول عبر Google (واجهة فقط)
+function googleLogin() {
+  alert("ميزة تسجيل الدخول عبر Google تحتاج Backend، لكن الواجهة جاهزة.");
 }
 </script>
 
