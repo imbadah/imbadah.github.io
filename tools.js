@@ -11,7 +11,9 @@ document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
 
     document.querySelectorAll('.tool-section').forEach(el => el.style.display = 'none');
 
-    document.getElementById(`tool-${tool}`).style.display = 'block';
+    const section = document.getElementById(`tool-${tool}`);
+    if (section) section.style.display = 'block';
+
     document.getElementById('back-to-tools').style.display = 'block';
   });
 });
@@ -228,7 +230,239 @@ document.getElementById("btn-watermark").addEventListener("click", async () => {
 });
 
 /* ============================
-   PDF → Images (PNG/JPG)
+   ضغط PDF (مستوى بسيط)
+============================ */
+document.getElementById("btn-compress").addEventListener("click", async () => {
+  const file = document.getElementById("compress-file").files[0];
+  const status = document.getElementById("compress-status");
+
+  if (!file) {
+    status.textContent = "الرجاء اختيار ملف PDF";
+    status.className = "status error";
+    return;
+  }
+
+  status.textContent = "جاري الضغط (قد يستغرق بعض الوقت)...";
+  status.className = "status";
+
+  try {
+    const bytes = await file.arrayBuffer();
+    const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+
+    // إعادة حفظ الملف مع تحسين داخلي (ضغط بسيط)
+    const newBytes = await pdfDoc.save({ useObjectStreams: true });
+    const blob = new Blob([newBytes], { type: "application/pdf" });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "compressed.pdf";
+    link.click();
+
+    status.textContent = "تم ضغط الملف ✔️ (ضغط بسيط)";
+    status.className = "status success";
+
+  } catch (err) {
+    status.textContent = "حدث خطأ أثناء الضغط";
+    status.className = "status error";
+  }
+});
+
+/* ============================
+   حماية PDF (كلمة مرور + منع النسخ)
+============================ */
+/* ملاحظة: pdf-lib لا يدعم تشفير كامل بكلمة مرور بشكل مباشر.
+   هنا نكتفي بإعادة الحفظ بدون تشفير حقيقي، ويمكن لاحقًا
+   ربطها بمكتبة تشفير متخصصة إذا رغبت. */
+document.getElementById("btn-protect").addEventListener("click", async () => {
+  const file = document.getElementById("protect-file").files[0];
+  const password = document.getElementById("protect-password").value;
+  const status = document.getElementById("protect-status");
+
+  if (!file || !password.trim()) {
+    status.textContent = "الرجاء اختيار ملف وكتابة كلمة المرور";
+    status.className = "status error";
+    return;
+  }
+
+  status.textContent = "جاري تجهيز الملف للحماية...";
+  status.className = "status";
+
+  try {
+    const bytes = await file.arrayBuffer();
+    const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+
+    const newBytes = await pdfDoc.save();
+    const blob = new Blob([newBytes], { type: "application/pdf" });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "protected-placeholder.pdf";
+    link.click();
+
+    status.textContent = "تم تجهيز الملف، ويمكن لاحقًا ربطه بتشفير فعلي على السيرفر أو مكتبة متقدمة.";
+    status.className = "status success";
+
+  } catch (err) {
+    status.textContent = "حدث خطأ أثناء الحماية";
+    status.className = "status error";
+  }
+});
+
+/* ============================
+   إزالة كلمة المرور
+============================ */
+/* نفس الملاحظة: إزالة كلمة المرور من PDF مشفّر بالكامل
+   تحتاج مكتبة تشفير متخصصة. هنا نحاول فقط فتح الملف
+   وإذا كان غير مشفّر أو مشفّر بشكل بسيط يعاد حفظه. */
+document.getElementById("btn-remove-password").addEventListener("click", async () => {
+  const file = document.getElementById("remove-file").files[0];
+  const password = document.getElementById("remove-password").value;
+  const status = document.getElementById("remove-status");
+
+  if (!file || !password.trim()) {
+    status.textContent = "الرجاء اختيار ملف وكتابة كلمة المرور الحالية";
+    status.className = "status error";
+    return;
+  }
+
+  status.textContent = "محاولة إزالة كلمة المرور...";
+  status.className = "status";
+
+  try {
+    const bytes = await file.arrayBuffer();
+    // في الواقع pdf-lib لا يدعم فتح PDF مشفّر بكلمة مرور
+    // هذا مجرد حفظ جديد لنفس الملف
+    const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+    const newBytes = await pdfDoc.save();
+    const blob = new Blob([newBytes], { type: "application/pdf" });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "unlocked-placeholder.pdf";
+    link.click();
+
+    status.textContent = "تم حفظ نسخة جديدة، إزالة كلمة المرور الكاملة تتطلب تشفير متقدم لاحقًا.";
+    status.className = "status success";
+
+  } catch (err) {
+    status.textContent = "تعذر إزالة كلمة المرور من هذا الملف (قد يكون مشفّرًا بالكامل).";
+    status.className = "status error";
+  }
+});
+
+/* ============================
+   توقيع PDF
+============================ */
+document.getElementById("btn-sign").addEventListener("click", async () => {
+  const file = document.getElementById("sign-file").files[0];
+  const imgFile = document.getElementById("sign-image").files[0];
+  const status = document.getElementById("sign-status");
+
+  if (!file || !imgFile) {
+    status.textContent = "الرجاء اختيار ملف PDF وصورة التوقيع";
+    status.className = "status error";
+    return;
+  }
+
+  status.textContent = "جاري إضافة التوقيع...";
+  status.className = "status";
+
+  try {
+    const pdfBytes = await file.arrayBuffer();
+    const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+
+    const imgBytes = await imgFile.arrayBuffer();
+    let signatureImage;
+    if (imgFile.type.includes("png")) {
+      signatureImage = await pdfDoc.embedPng(imgBytes);
+    } else {
+      signatureImage = await pdfDoc.embedJpg(imgBytes);
+    }
+
+    const pages = pdfDoc.getPages();
+    const sigWidth = signatureImage.width / 3;
+    const sigHeight = signatureImage.height / 3;
+
+    pages.forEach(page => {
+      const { width, height } = page.getSize();
+      page.drawImage(signatureImage, {
+        x: width - sigWidth - 40,
+        y: 40,
+        width: sigWidth,
+        height: sigHeight
+      });
+    });
+
+    const newBytes = await pdfDoc.save();
+    const blob = new Blob([newBytes], { type: "application/pdf" });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "signed.pdf";
+    link.click();
+
+    status.textContent = "تم إضافة التوقيع ✔️";
+    status.className = "status success";
+
+  } catch (err) {
+    status.textContent = "حدث خطأ أثناء التوقيع";
+    status.className = "status error";
+  }
+});
+
+/* ============================
+   ترتيب الصفحات
+============================ */
+document.getElementById("btn-reorder").addEventListener("click", async () => {
+  const file = document.getElementById("reorder-file").files[0];
+  const orderStr = document.getElementById("reorder-order").value;
+  const status = document.getElementById("reorder-status");
+
+  if (!file || !orderStr.trim()) {
+    status.textContent = "الرجاء اختيار ملف وكتابة ترتيب الصفحات";
+    status.className = "status error";
+    return;
+  }
+
+  status.textContent = "جاري ترتيب الصفحات...";
+  status.className = "status";
+
+  try {
+    const bytes = await file.arrayBuffer();
+    const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+
+    const totalPages = pdfDoc.getPageCount();
+    const order = orderStr.split(",").map(n => parseInt(n.trim(), 10) - 1);
+
+    if (order.some(n => isNaN(n) || n < 0 || n >= totalPages)) {
+      status.textContent = "ترتيب غير صالح، تأكد من الأرقام.";
+      status.className = "status error";
+      return;
+    }
+
+    const newPdf = await PDFLib.PDFDocument.create();
+    const pages = await newPdf.copyPages(pdfDoc, order);
+    pages.forEach(p => newPdf.addPage(p));
+
+    const newBytes = await newPdf.save();
+    const blob = new Blob([newBytes], { type: "application/pdf" });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "reordered.pdf";
+    link.click();
+
+    status.textContent = "تم ترتيب الصفحات ✔️";
+    status.className = "status success";
+
+  } catch (err) {
+    status.textContent = "حدث خطأ أثناء ترتيب الصفحات";
+    status.className = "status error";
+  }
+});
+
+/* ============================
+   PDF → Images
 ============================ */
 document.getElementById("btn-pdf-to-images").addEventListener("click", async () => {
   const file = document.getElementById("pdf-to-images-file").files[0];
@@ -323,6 +557,81 @@ document.getElementById("btn-images-to-pdf").addEventListener("click", async () 
 
   } catch (err) {
     status.textContent = "حدث خطأ أثناء التحويل";
+    status.className = "status error";
+  }
+});
+
+/* ============================
+   OCR – تحويل PDF إلى نص
+============================ */
+document.getElementById("btn-ocr").addEventListener("click", async () => {
+  const file = document.getElementById("ocr-file").files[0];
+  const lang = document.getElementById("ocr-lang").value;
+  const status = document.getElementById("ocr-status");
+  const result = document.getElementById("ocr-result");
+  const progressFill = document.getElementById("ocr-progress");
+
+  if (!file) {
+    status.textContent = "الرجاء اختيار ملف PDF";
+    status.className = "status error";
+    return;
+  }
+
+  status.textContent = "جاري قراءة الصفحات...";
+  status.className = "status";
+  result.value = "";
+  progressFill.style.width = "0%";
+
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    let fullText = "";
+    let currentPage = 0;
+    const totalPages = pdf.numPages;
+
+    for (let i = 1; i <= totalPages; i++) {
+      currentPage = i;
+      status.textContent = `جاري معالجة الصفحة ${i} من ${totalPages}...`;
+
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({ scale: 2 });
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      await page.render({ canvasContext: ctx, viewport }).promise;
+
+      const dataUrl = canvas.toDataURL("image/png");
+
+      await Tesseract.recognize(
+        dataUrl,
+        lang,
+        {
+          logger: m => {
+            if (m.status === "recognizing text" && m.progress) {
+              const base = ((i - 1) / totalPages) * 100;
+              const local = m.progress * (100 / totalPages);
+              const total = Math.min(100, base + local);
+              progressFill.style.width = `${total}%`;
+            }
+          }
+        }
+      ).then(({ data: { text } }) => {
+        fullText += `\n\n===== صفحة ${i} =====\n\n` + text;
+        result.value = fullText;
+      });
+    }
+
+    progressFill.style.width = "100%";
+    status.textContent = "تم استخراج النص ✔️";
+    status.className = "status success";
+
+  } catch (err) {
+    status.textContent = "حدث خطأ أثناء استخراج النص (OCR)";
     status.className = "status error";
   }
 });
