@@ -4,22 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>الأدوات – PdfSwift</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 
-  <!-- pdf-lib -->
+  <!-- pdf-lib للأدوات الأساسية -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
   <!-- pdf.js + worker -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.js"></script>
   <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
   </script>
 
-  <!-- JSZip لعمل ZIP -->
+  <!-- JSZip لتحميل الصور كـ ZIP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <style>
@@ -29,21 +30,24 @@
       background: #1e40af; color: white; border: none; padding: 1.6rem 1.2rem;
       border-radius: 12px; font-size: 1.3rem; font-weight: 600; cursor: pointer;
       transition: all 0.3s; box-shadow: 0 6px 16px rgba(30,64,175,0.22);
+      position: relative;
     }
     .tool-btn:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(30,64,175,0.3); }
-    .dark-theme .tool-btn { background: #3b82f6; box-shadow: 0 6px 16px rgba(59,130,246,0.3); }
+    .dark-theme .tool-btn { background: #3b82f6; }
 
     .tool-section {
       background: white; border-radius: 16px; padding: 2.8rem; margin: 2rem auto;
-      max-width: 820px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      max-width: 860px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
     .dark-theme .tool-section { background: #1e293b; box-shadow: 0 10px 30px rgba(0,0,0,0.45); }
 
-    input[type="file"], input[type="text"], select {
+    input[type="file"], input[type="text"], select, textarea {
       width: 100%; padding: 1rem; margin: 1.2rem 0; border: 1px solid #cbd5e1;
       border-radius: 8px; font-size: 1.1rem;
     }
-    .dark-theme input, .dark-theme select { background: #334155; color: #e2e8f0; border-color: #475569; }
+    .dark-theme input, .dark-theme select, .dark-theme textarea {
+      background: #334155; color: #e2e8f0; border-color: #475569;
+    }
 
     .action-btn {
       background: #1e40af; color: white; border: none; padding: 1.1rem 2.8rem;
@@ -52,11 +56,17 @@
     }
     .action-btn:hover { background: #1e3a8a; transform: translateY(-3px); }
     .dark-theme .action-btn { background: #3b82f6; }
-    .dark-theme .action-btn:hover { background: #2563eb; }
 
     .status { margin-top: 1.8rem; font-weight: 600; min-height: 1.8rem; }
     .success { color: #16a34a; }
     .error { color: #dc2626; }
+
+    #images-preview img {
+      max-width: 220px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin: 10px;
+    }
   </style>
 </head>
 <body class="light-theme">
@@ -78,7 +88,7 @@
 
 <main class="container tools-page">
   <h1 class="section-title">أدوات PDF محلية 100%</h1>
-  <p style="text-align:center; margin-bottom: 3.5rem;">اختر الأداة – كل شيء يتم داخل متصفحك</p>
+  <p style="text-align:center; margin-bottom: 3.5rem;">اختر الأداة – كل شيء يتم داخل متصفحك بدون سيرفر</p>
 
   <div class="grid tool-selector">
     <button class="tool-btn" data-tool="merge">دمج ملفات PDF</button>
@@ -91,15 +101,72 @@
     <button class="tool-btn" data-tool="pdf-to-images">تحويل PDF إلى صور</button>
   </div>
 
-  <!-- الأقسام القديمة (ضع كودها هنا كما في النسخة السابقة) -->
-  <!-- مثال: دمج، تقسيم، تدوير، علامة مائية، حذف صفحات، استخراج نص، استخراج صور -->
+  <!-- الأدوات القديمة – يمكنك إبقاء كودها كما هو -->
+  <section id="tool-merge" class="tool-section" style="display:none;">
+    <h2>دمج ملفات PDF</h2>
+    <input type="file" id="merge-files" multiple accept=".pdf">
+    <button id="btn-merge" class="action-btn">دمج الآن</button>
+    <div id="merge-status" class="status"></div>
+  </section>
 
-  <!-- قسم التحويل إلى صور (المحدث والمفعّل) -->
+  <section id="tool-split" class="tool-section" style="display:none;">
+    <h2>استخراج صفحات محددة</h2>
+    <input type="file" id="split-file" accept=".pdf">
+    <input type="text" id="split-ranges" placeholder="مثال: 1-3,5,8-10">
+    <button id="btn-split" class="action-btn">استخراج</button>
+    <div id="split-status" class="status"></div>
+  </section>
+
+  <section id="tool-rotate" class="tool-section" style="display:none;">
+    <h2>تدوير صفحات</h2>
+    <input type="file" id="rotate-file" accept=".pdf">
+    <select id="rotate-degree">
+      <option value="90">90° يمين</option>
+      <option value="180">180°</option>
+      <option value="270">90° يسار</option>
+    </select>
+    <button id="btn-rotate" class="action-btn">تدوير</button>
+    <div id="rotate-status" class="status"></div>
+  </section>
+
+  <section id="tool-watermark" class="tool-section" style="display:none;">
+    <h2>إضافة علامة مائية نصية</h2>
+    <input type="file" id="watermark-file" accept=".pdf">
+    <input type="text" id="watermark-text" placeholder="اكتب النص هنا (مثال: سري)">
+    <button id="btn-watermark" class="action-btn">إضافة</button>
+    <div id="watermark-status" class="status"></div>
+  </section>
+
+  <!-- الأدوات الجديدة المفعلة -->
+
+  <section id="tool-delete-pages" class="tool-section" style="display:none;">
+    <h2>حذف صفحات محددة</h2>
+    <input type="file" id="delete-file" accept=".pdf">
+    <input type="text" id="delete-ranges" placeholder="الصفحات المراد حذفها: 2,4-6,9">
+    <button id="btn-delete-pages" class="action-btn">حذف الصفحات وتحميل الملف</button>
+    <div id="delete-status" class="status"></div>
+  </section>
+
+  <section id="tool-extract-text" class="tool-section" style="display:none;">
+    <h2>استخراج النص من PDF</h2>
+    <input type="file" id="extract-text-file" accept=".pdf">
+    <button id="btn-extract-text" class="action-btn">استخراج النص</button>
+    <textarea id="extracted-text-output" rows="12" placeholder="سيظهر النص المستخرج هنا..." style="margin-top:1.2rem; width:100%; font-family:monospace; direction:ltr; text-align:left;"></textarea>
+    <button id="copy-extracted-text" class="action-btn" style="margin-top:0.8rem; display:none;">نسخ النص</button>
+    <div id="extract-text-status" class="status"></div>
+  </section>
+
+  <section id="tool-extract-images" class="tool-section" style="display:none;">
+    <h2>استخراج جميع الصور من PDF</h2>
+    <input type="file" id="extract-images-file" accept=".pdf">
+    <button id="btn-extract-images" class="action-btn">استخراج الصور</button>
+    <div id="images-preview" style="margin-top:1.5rem; display:flex; flex-wrap:wrap; gap:1rem;"></div>
+    <div id="extract-images-status" class="status"></div>
+  </section>
+
   <section id="tool-pdf-to-images" class="tool-section" style="display:none;">
-    <h2>تحويل PDF إلى صور (كل صفحة → صورة png)</h2>
-    <p style="color:#666; font-size:0.95rem; margin-bottom:1.5rem;">
-      سيتم تحويل كل صفحة إلى صورة PNG عالية الجودة وتحميلها كملف ZIP
-    </p>
+    <h2>تحويل PDF إلى صور (كل صفحة png)</h2>
+    <p style="color:#666; font-size:0.95rem; margin-bottom:1.5rem;">يتم تحويل كل صفحة إلى صورة PNG وتجميعها في ملف ZIP</p>
     <input type="file" id="pdf-to-images-file" accept=".pdf">
     <button id="btn-pdf-to-images" class="action-btn">تحويل وتحميل ZIP</button>
     <div id="pdf-to-images-status" class="status"></div>
@@ -151,9 +218,165 @@ function downloadBlob(bytes, filename, type = 'application/pdf') {
 }
 
 // ────────────────────────────────
-// تحويل PDF إلى صور (مفعّل الآن)
+// الأدوات الجديدة المفعلة كاملاً بـ pdf.js
 // ────────────────────────────────
 
+// 1. حذف صفحات محددة (بـ pdf-lib)
+document.getElementById('btn-delete-pages')?.addEventListener('click', async () => {
+  const file = document.getElementById('delete-file').files[0];
+  const rangesStr = document.getElementById('delete-ranges').value.trim();
+  const status = document.getElementById('delete-status');
+
+  if (!file || !rangesStr) {
+    status.textContent = 'اختر ملف وأدخل أرقام الصفحات';
+    status.className = 'status error';
+    return;
+  }
+
+  status.className = 'status';
+  status.textContent = 'جاري حذف الصفحات...';
+
+  try {
+    const pdfDoc = await PDFDocument.load(await file.arrayBuffer());
+    const total = pdfDoc.getPageCount();
+    const toDelete = new Set();
+
+    rangesStr.split(',').forEach(part => {
+      part = part.trim();
+      if (part.includes('-')) {
+        const [start, end] = part.split('-').map(Number);
+        for (let i = start; i <= end; i++) if (i >= 1 && i <= total) toDelete.add(i - 1);
+      } else {
+        const num = Number(part);
+        if (num >= 1 && num <= total) toDelete.add(num - 1);
+      }
+    });
+
+    if (toDelete.size === 0) throw new Error('لم يتم تحديد صفحات صالحة');
+
+    const newDoc = await PDFDocument.create();
+    for (let i = 0; i < total; i++) {
+      if (!toDelete.has(i)) {
+        const [page] = await newDoc.copyPages(pdfDoc, [i]);
+        newDoc.addPage(page);
+      }
+    }
+
+    downloadBlob(await newDoc.save(), 'after-delete.pdf');
+    status.className = 'status success';
+    status.textContent = `تم حذف ${toDelete.size} صفحة`;
+  } catch (err) {
+    status.className = 'status error';
+    status.textContent = 'خطأ: ' + err.message;
+  }
+});
+
+// 2. استخراج النص من PDF (بـ pdf.js)
+document.getElementById('btn-extract-text')?.addEventListener('click', async () => {
+  const file = document.getElementById('extract-text-file').files[0];
+  const status = document.getElementById('extract-text-status');
+  const output = document.getElementById('extracted-text-output');
+  const copyBtn = document.getElementById('copy-extracted-text');
+
+  if (!file) {
+    status.textContent = 'اختر ملف PDF أولاً';
+    status.className = 'status error';
+    return;
+  }
+
+  status.className = 'status';
+  status.textContent = 'جاري استخراج النص...';
+
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+    const pdf = await loadingTask.promise;
+
+    let fullText = '';
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map(item => item.str).join(' ');
+      fullText += `صفحة ${i}:\n${pageText}\n\n`;
+    }
+
+    output.value = fullText.trim() || 'لم يتم العثور على نص قابل للاستخراج';
+    copyBtn.style.display = 'inline-block';
+    status.className = 'status success';
+    status.textContent = `تم استخراج النص من ${pdf.numPages} صفحة`;
+  } catch (err) {
+    status.className = 'status error';
+    status.textContent = 'خطأ: ' + err.message;
+  }
+});
+
+document.getElementById('copy-extracted-text')?.addEventListener('click', () => {
+  const ta = document.getElementById('extracted-text-output');
+  ta.select();
+  document.execCommand('copy');
+  alert('تم نسخ النص إلى الحافظة');
+});
+
+// 3. استخراج الصور من PDF (بـ pdf.js + canvas)
+document.getElementById('btn-extract-images')?.addEventListener('click', async () => {
+  const file = document.getElementById('extract-images-file').files[0];
+  const status = document.getElementById('extract-images-status');
+  const preview = document.getElementById('images-preview');
+
+  if (!file) {
+    status.textContent = 'اختر ملف PDF أولاً';
+    status.className = 'status error';
+    return;
+  }
+
+  status.textContent = 'جاري استخراج الصور...';
+  preview.innerHTML = '';
+
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+    const pdf = await loadingTask.promise;
+
+    let imageCount = 0;
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const ops = await page.getOperatorList();
+
+      for (let j = 0; j < ops.fnArray.length; j++) {
+        if (ops.fnArray[j] === pdfjsLib.OPS.paintImageXObject || ops.fnArray[j] === pdfjsLib.OPS.paintJpegXObject) {
+          const imgArgs = ops.argsArray[j];
+          const imgKey = imgArgs[0];
+          const img = page.objs.get(imgKey);
+
+          if (img && img.data) {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            const imgData = ctx.createImageData(img.width, img.height);
+            imgData.data.set(img.data);
+            ctx.putImageData(imgData, 0, 0);
+
+            const imgEl = document.createElement('img');
+            imgEl.src = canvas.toDataURL('image/png');
+            imgEl.alt = `صورة ${++imageCount} من الصفحة ${i}`;
+            preview.appendChild(imgEl);
+          }
+        }
+      }
+    }
+
+    status.className = 'status success';
+    status.textContent = `تم استخراج ${imageCount} صورة`;
+  } catch (err) {
+    status.className = 'status error';
+    status.textContent = 'خطأ أثناء استخراج الصور: ' + err.message;
+  }
+});
+
+// 4. تحويل PDF إلى صور (كل صفحة PNG داخل ZIP)
 document.getElementById('btn-pdf-to-images')?.addEventListener('click', async () => {
   const file = document.getElementById('pdf-to-images-file').files[0];
   const status = document.getElementById('pdf-to-images-status');
@@ -165,7 +388,7 @@ document.getElementById('btn-pdf-to-images')?.addEventListener('click', async ()
   }
 
   status.className = 'status';
-  status.textContent = 'جاري تحويل الصفحات إلى صور... (قد يستغرق وقتاً حسب عدد الصفحات)';
+  status.textContent = 'جاري تحويل الصفحات إلى صور...';
 
   try {
     const arrayBuffer = await file.arrayBuffer();
@@ -178,7 +401,7 @@ document.getElementById('btn-pdf-to-images')?.addEventListener('click', async ()
       status.textContent = `جاري معالجة الصفحة ${pageNum} من ${pdf.numPages}...`;
 
       const page = await pdf.getPage(pageNum);
-      const scale = 2.0; // يمكن تقليلها إلى 1.5 أو 1.0 إذا كان بطيئاً
+      const scale = 2.0;
       const viewport = page.getViewport({ scale });
 
       const canvas = document.createElement('canvas');
@@ -201,13 +424,13 @@ document.getElementById('btn-pdf-to-images')?.addEventListener('click', async ()
     status.textContent = 'جاري إنشاء ملف ZIP...';
 
     const zipBlob = await zip.generateAsync({ type: 'blob' });
-    downloadBlob(zipBlob, `pdf_converted_${file.name.replace('.pdf','')}.zip`, 'application/zip');
+    downloadBlob(zipBlob, `pdf_as_images_${file.name.replace('.pdf','')}.zip`, 'application/zip');
 
     status.className = 'status success';
     status.textContent = `تم التحويل! تم تحميل ${pdf.numPages} صورة كملف ZIP`;
   } catch (err) {
     status.className = 'status error';
-    status.textContent = 'خطأ أثناء التحويل: ' + (err.message || 'غير معروف');
+    status.textContent = 'خطأ: ' + (err.message || err);
     console.error(err);
   }
 });
