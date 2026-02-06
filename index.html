@@ -18,6 +18,54 @@
     .nav a {
       font-size: 0.9rem !important;
     }
+
+    /* 🔥 القائمة المخفية */
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #1e293b;
+    }
+
+    @media (max-width: 900px) {
+      .nav {
+        display: none;
+        flex-direction: column;
+        background: white;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        width: 200px;
+        z-index: 999;
+      }
+
+      .nav a {
+        padding: 0.7rem 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .nav a:last-child {
+        border-bottom: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      /* نقل الشعار لليسار */
+      .logo {
+        margin-left: auto;
+      }
+    }
   </style>
 </head>
 <body class="light-theme">
@@ -25,9 +73,15 @@
   <!-- Header -->
   <header class="header">
     <div class="container">
+
+      <!-- زر القائمة (الهامبرغر) -->
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+
       <a href="index.html" class="logo">Pdf<span>Swift</span></a>
 
-      <nav class="nav">
+      <nav class="nav" id="mobileMenu">
         <a href="index.html" class="active">الرئيسية</a>
         <a href="absher-photo.html">أداة الصور</a>
         <a href="tools.html">الأدوات</a>
@@ -40,6 +94,13 @@
       </button>
     </div>
   </header>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("mobileMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+  </script>
 
   <!-- Hero Section -->
   <section class="hero fade-in">
