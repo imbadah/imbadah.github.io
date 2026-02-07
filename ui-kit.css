@@ -1,7 +1,6 @@
 /* --------------------------------------------------
    UI-KIT.CSS
    ملف الستايل الموحد لكل صفحات PdfSwift
-   يحتوي على: الثيم + الهيدر + القائمة + الكروت + الشبكة
 -------------------------------------------------- */
 
 /* الخط الأساسي */
@@ -73,16 +72,31 @@ body {
     text-decoration: none;
 }
 
+/* القائمة المنسدلة — تعمل على كل الأجهزة */
 .nav {
-    display: flex;
-    gap: 1.2rem;
+    display: none;
+    flex-direction: column;
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    width: 220px;
+    z-index: 999;
 }
 
 .nav a {
     text-decoration: none;
     color: #1e293b;
-    font-size: 0.9rem;
-    font-weight: 500;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+}
+
+.nav a:last-child {
+    border-bottom: none;
 }
 
 .nav a.active {
@@ -90,54 +104,19 @@ body {
     font-weight: 700;
 }
 
-/* القائمة المخفية للجوال */
+/* زر القائمة — يظهر على كل الأجهزة */
 .menu-toggle {
-    display: none;
+    display: block;
     font-size: 1.8rem;
     cursor: pointer;
-    color: #1e293b;
+    color: inherit;
 }
 
-@media (max-width: 900px) {
+/* تحسين القائمة على الشاشات الكبيرة */
+@media (min-width: 1000px) {
     .nav {
-        display: none;
-        flex-direction: column;
-        background: white;
-        padding: 1rem;
-        border-radius: 12px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        position: absolute;
-        top: 70px;
-        right: 20px;
-        width: 200px;
-        z-index: 999;
-    }
-
-    .nav a {
-        padding: 0.7rem 0;
-        border-bottom: 1px solid #e2e8f0;
-    }
-
-    .nav a:last-child {
-        border-bottom: none;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .header .container {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        align-items: center;
-    }
-
-    #themeToggle {
-        justify-self: end;
-    }
-
-    .logo {
-        justify-self: center;
+        right: 40px;
+        width: 260px;
     }
 }
 
