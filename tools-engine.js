@@ -1,13 +1,10 @@
 /* =========================================================
-   PdfSwift — Tools Engine (Final Premium Version)
-   يدعم النوافذ + أدوات PDF + أدوات الصور + أداة أبشر
+   PdfSwift — Tools Engine (Glass UI Edition)
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ------------------------------------------------------
-       0) نظام النوافذ (Modal System)
-    ------------------------------------------------------ */
+    /* 0) نظام المودال */
 
     let modal, modalContent, modalBody, modalTitle;
 
@@ -21,16 +18,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const header = document.createElement("div");
         header.className = "modal-header";
 
-        // زر الرجوع
         const backBtn = document.createElement("button");
         backBtn.className = "modal-back";
         backBtn.innerHTML = '<i class="fas fa-arrow-right"></i>';
         backBtn.onclick = closeModal;
 
-        // العنوان
         modalTitle = document.createElement("h3");
 
-        // زر الإغلاق
         const closeBtn = document.createElement("button");
         closeBtn.className = "modal-close";
         closeBtn.innerHTML = '<i class="fas fa-times"></i>';
@@ -68,9 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* ------------------------------------------------------
-       1) القائمة المنسدلة (الهامبرغر)
-    ------------------------------------------------------ */
+    /* 1) القائمة المنسدلة */
 
     const menuToggle = document.getElementById("menuToggle");
     const nav = document.querySelector(".nav");
@@ -81,19 +73,35 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* ------------------------------------------------------
-       2) أداة أبشر — معالجة تلقائية بدون قص يدوي
-    ------------------------------------------------------ */
+    /* 2) أداة أبشر — Glass + قبل/بعد */
 
     window.openAbsherTool = function () {
-        openModal("تجهيز صورة أبشر", `
+        openModal("تجهيز صورة منصة أبشر", `
             <div class="drop-zone" id="absher-drop">
                 <p>اسحب الصورة هنا أو اضغط للاختيار</p>
                 <input type="file" id="absher-file" accept="image/*" style="display:none;">
             </div>
 
-            <div id="absher-preview" style="margin-top:20px;"></div>
-            <div id="absher-actions" style="margin-top:20px;"></div>
+            <div class="absher-modal-layout">
+                <div class="absher-panel">
+                    <h4>قبل المعالجة</h4>
+                    <div id="absher-before" class="absher-preview-box">
+                        <span style="color:#777;">لم يتم اختيار صورة بعد</span>
+                    </div>
+                </div>
+
+                <div class="absher-panel">
+                    <h4>بعد المعالجة</h4>
+                    <div id="absher-after" class="absher-preview-box">
+                        <span style="color:#777;">ستظهر الصورة الجاهزة هنا</span>
+                    </div>
+                    <div style="margin-top:10px; text-align:left;">
+                        <button id="absher-download" class="btn btn-primary" style="display:none;">
+                            تحميل الصورة الجاهزة
+                        </button>
+                    </div>
+                </div>
+            </div>
         `);
 
         const drop = document.getElementById("absher-drop");
@@ -120,10 +128,18 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleAbsherFile(file) {
         if (!file) return;
 
+        const beforeBox = document.getElementById("absher-before");
+        const afterBox = document.getElementById("absher-after");
+        const downloadBtn = document.getElementById("absher-download");
+
         const reader = new FileReader();
         reader.onload = () => {
             const img = new Image();
             img.src = reader.result;
+
+            // عرض "قبل"
+            beforeBox.innerHTML = "";
+            beforeBox.appendChild(img);
 
             img.onload = () => {
                 const canvas = document.createElement("canvas");
@@ -146,25 +162,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 ctx.drawImage(img, x, y, newW, newH);
 
+                // تحسين بسيط (لو حاب نضيف لاحقًا فلاتر)
                 const url = canvas.toDataURL("image/jpeg", 0.95);
 
-                document.getElementById("absher-preview").innerHTML = `
-                    <img src="${url}" style="max-width:250px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);">
-                `;
+                // عرض "بعد"
+                afterBox.innerHTML = `<img src="${url}" alt="صورة أبشر الجاهزة">`;
 
-                document.getElementById("absher-actions").innerHTML = `
-                    <a href="${url}" download="absher-photo.jpg" class="btn btn-primary">تحميل الصورة</a>
-                `;
+                // تفعيل زر التحميل
+                downloadBtn.style.display = "inline-flex";
+                downloadBtn.onclick = () => {
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "absher-photo.jpg";
+                    a.click();
+                };
             };
         };
         reader.readAsDataURL(file);
     }
 
-    /* ------------------------------------------------------
-       3) أدوات الصور (Crop – Resize – Convert – Rotate – Enhance)
-    ------------------------------------------------------ */
+    /* 3) ربط أزرار أدوات الصور */
 
-    const imageToolButtons = document.querySelectorAll("#image-tools .tool-btn");
+    const imageToolButtons = document.querySelectorAll("#image-tools .tool-btn[data-tool]");
 
     imageToolButtons.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -181,9 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    /* ------------------------------------------------------
-       3.1 — قص الصورة (Crop)
-    ------------------------------------------------------ */
+    /* 3.1 — قص الصورة */
 
     function openImageCropTool() {
         openModal("قص الصورة", `
@@ -254,9 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* ------------------------------------------------------
-       3.2 — تغيير الحجم (Resize)
-    ------------------------------------------------------ */
+    /* 3.2 — تغيير الحجم */
 
     function openImageResizeTool() {
         openModal("تغيير حجم الصورة", `
@@ -265,14 +280,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 <input type="file" id="img-file" accept="image/*" style="display:none;">
             </div>
 
-            <div style="margin-top:15px;display:flex;gap:10px;">
+            <div style="margin-top:15px;display:flex;gap:10px;flex-wrap:wrap;">
                 <div>
                     <label>العرض</label>
-                    <input type="number" id="resize-w" class="input" style="width:120px;">
+                    <input type="number" id="resize-w" style="width:120px;">
                 </div>
                 <div>
                     <label>الارتفاع</label>
-                    <input type="number" id="resize-h" class="input" style="width:120px;">
+                    <input type="number" id="resize-h" style="width:120px;">
                 </div>
             </div>
 
@@ -344,9 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* ------------------------------------------------------
-       3.3 — تغيير الصيغة (Convert)
-    ------------------------------------------------------ */
+    /* 3.3 — تغيير الصيغة */
 
     function openImageConvertTool() {
         openModal("تغيير صيغة الصورة", `
@@ -357,7 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             <div style="margin-top:15px;">
                 <label>الصيغة المطلوبة:</label>
-                <select id="convert-format" class="input">
+                <select id="convert-format">
                     <option value="image/png">PNG</option>
                     <option value="image/jpeg">JPG</option>
                     <option value="image/webp">WEBP</option>
@@ -430,9 +443,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* ------------------------------------------------------
-       3.4 — تحسين بسيط (Enhance)
-    ------------------------------------------------------ */
+    /* 3.4 — تحسين بسيط */
 
     function openImageEnhanceTool() {
         openModal("تحسين جودة الصورة", `
@@ -501,9 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* ------------------------------------------------------
-       3.5 — تدوير الصورة (Rotate)
-    ------------------------------------------------------ */
+    /* 3.5 — تدوير الصورة */
 
     function openImageRotateTool() {
         openModal("تدوير الصورة", `
@@ -514,4 +523,91 @@ document.addEventListener("DOMContentLoaded", () => {
 
             <div style="margin-top:15px;">
                 <label>زاوية التدوير:</label>
-                <select id="rotate-angle"
+                <select id="rotate-angle">
+                    <option value="90">90°</option>
+                    <option value="180">180°</option>
+                    <option value="270">270°</option>
+                </select>
+            </div>
+
+            <div id="img-preview" style="margin-top:20px;"></div>
+            <div id="img-actions" style="margin-top:20px;"></div>
+        `);
+
+        const drop = document.getElementById("img-drop");
+        const fileInput = document.getElementById("img-file");
+        let imgEl = null;
+
+        drop.onclick = () => fileInput.click();
+
+        drop.addEventListener("dragover", e => {
+            e.preventDefault();
+            drop.classList.add("active");
+        });
+
+        drop.addEventListener("dragleave", () => drop.classList.remove("active"));
+
+        drop.addEventListener("drop", e => {
+            e.preventDefault();
+            drop.classList.remove("active");
+            loadRotateImage(e.dataTransfer.files[0]);
+        });
+
+        fileInput.onchange = () => loadRotateImage(fileInput.files[0]);
+
+        function loadRotateImage(file) {
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                const preview = document.getElementById("img-preview");
+                preview.innerHTML = `<img id="rotate-img" src="${reader.result}" style="max-width:100%;">`;
+
+                imgEl = document.getElementById("rotate-img");
+
+                document.getElementById("img-actions").innerHTML = `
+                    <button id="save-rotate" class="btn btn-primary">تحميل الصورة</button>
+                `;
+
+                document.getElementById("save-rotate").onclick = () => {
+                    const angle = parseInt(document.getElementById("rotate-angle").value);
+
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+
+                    if (angle === 180) {
+                        canvas.width = imgEl.naturalWidth;
+                        canvas.height = imgEl.naturalHeight;
+                    } else {
+                        canvas.width = imgEl.naturalHeight;
+                        canvas.height = imgEl.naturalWidth;
+                    }
+
+                    ctx.translate(canvas.width / 2, canvas.height / 2);
+                    ctx.rotate(angle * Math.PI / 180);
+                    ctx.drawImage(imgEl, -imgEl.naturalWidth / 2, -imgEl.naturalHeight / 2);
+
+                    canvas.toBlob(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = "rotated.png";
+                        a.click();
+                    });
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    /* 4) (اختياري) ربط أدوات PDF لاحقًا */
+
+    const pdfToolButtons = document.querySelectorAll("#pdf-tools .tool-btn[data-tool]");
+    pdfToolButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const tool = btn.dataset.tool;
+            openModal("قريبًا", `<p>أداة <strong>${tool}</strong> سيتم تفعيلها لاحقًا.</p>`);
+        });
+    });
+
+});
