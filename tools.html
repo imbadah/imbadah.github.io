@@ -1,9 +1,120 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>الأدوات – PdfSwift</title>
+ 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="أدوات PDF مجانية تعمل مباشرة في المتصفح: دمج، تقسيم، تدوير، علامة مائية وأكثر بدون رفع الملفات.">
+  <title>PdfSwift – أدوات PDF سريعة وآمنة في المتصفح</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* 🔥 تصغير خط القائمة */
+    .nav a {
+      font-size: 0.9rem !important;
+    }
+
+    /* 🔥 القائمة المخفية */
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #1e293b;
+    }
+
+    @media (max-width: 900px) {
+      .nav {
+        display: none;
+        flex-direction: column;
+        background: white;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        width: 200px;
+        z-index: 999;
+      }
+
+      .nav a {
+        padding: 0.7rem 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .nav a:last-child {
+        border-bottom: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      /* 🔥 الشعار في المنتصف */
+      .header .container {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+      }
+
+      .logo {
+        justify-self: center;
+        margin: 0;
+      }
+
+      /* زر الوضع الليلي يسار */
+      #themeToggle {
+        justify-self: end;
+      }
+    }
+  </style>
+</head>
+<body class="light-theme">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+
+      <!-- زر القائمة (الهامبرغر) -->
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+
+      <!-- 🔥 الشعار الجديد في المنتصف -->
+      <a href="index.html" class="logo" style="font-size:1.7rem; font-weight:700;">
+        <span style="color:#000;">PDF</span><span style="color:#1e40af;"> SWIFT</span>
+      </a>
+
+      <nav class="nav" id="mobileMenu">
+        <a href="index.html" class="active">الرئيسية</a>
+        <a href="absher-photo.html">أدوات الصور</a>
+        <a href="tools.html">أدوات PDF</a>
+        <a href="about.html">عن الموقع</a>
+        <a href="privacy.html">سياسة الخصوصية</a>
+      </nav>
+
+      <button id="themeToggle" class="theme-btn" aria-label="تبديل الوضع">
+        <i class="fa-solid fa-moon-stars"></i>
+      </button>
+    </div>
+  </header>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("mobileMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+  </script>
+
+  <!-- Hero Section -->
+  <section class="hero fade-in">
+    <div class="container">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
