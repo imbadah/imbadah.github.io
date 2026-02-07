@@ -1,50 +1,34 @@
 /* =========================================================
-   PdfSwift — UI KIT (Premium Glass UI)
+   PdfSwift — UI KIT (White + Diagonal Gradient + Glass UI)
 ========================================================= */
 
 /* 1) المتغيرات العامة */
 
 :root {
-    --bg: #05060a;
-    --bg-soft: #0b0d13;
-    --card-bg: rgba(18, 20, 30, 0.92);
-    --glass: rgba(255,255,255,0.06);
-    --glass-strong: rgba(255,255,255,0.16);
-    --text: #f5f5f7;
-    --text-light: #a0a3b1;
-    --border: rgba(255,255,255,0.12);
+    --text: #1a1a1a;
+    --text-light: #555;
     --primary: #0a84ff;
     --primary-hover: #0066cc;
-    --danger: #ff4b5c;
     --radius: 18px;
-    --shadow: 0 18px 45px rgba(0,0,0,0.55);
-    --transition: 0.25s ease;
+    --shadow: 0 10px 35px rgba(0,0,0,0.12);
+    --glass: rgba(255,255,255,0.45);
+    --glass-border: rgba(255,255,255,0.65);
 }
 
-.dark-mode {
-    /* نفس القيم تقريبًا، ممكن تعدّل لاحقًا لو حبيت */
-}
-
-/* 2) Reset + أساسيات */
+/* 2) Reset */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Tajawal", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: "Tajawal", sans-serif;
 }
 
 body {
-    background: radial-gradient(circle at top, #151827 0, #05060a 55%);
+    background: linear-gradient(135deg, #ffffff 0%, #bcd9ff 45%, #c9b3ff 100%);
     color: var(--text);
     line-height: 1.6;
-    transition: background var(--transition), color var(--transition);
     min-height: 100vh;
-}
-
-img {
-    max-width: 100%;
-    display: block;
 }
 
 .container {
@@ -53,17 +37,17 @@ img {
     margin: auto;
 }
 
-/* 3) الهيدر + الشعار + القائمة */
+/* 3) الهيدر */
 
 .header {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: linear-gradient(to bottom, rgba(5,6,10,0.96), rgba(5,6,10,0.85));
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    backdrop-filter: blur(18px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-    padding: 10px 0;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 12px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
 .header .container {
@@ -73,62 +57,44 @@ img {
     position: relative;
 }
 
-/* شعار PDFSWIFT */
-
 .logo {
     font-size: 1.7rem;
     font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     text-decoration: none;
     display: flex;
     gap: 4px;
-    user-select: none;
 }
 
-.logo span.pdf {
-    color: #ff3b30; /* أحمر قوي */
+.logo .pdf {
+    color: #ff3b30;
 }
 
-.logo span.swift {
-    color: #0a84ff; /* أزرق قوي */
+.logo .swift {
+    color: #0a84ff;
 }
-
-/* زر الهامبرغر */
 
 .menu-toggle {
     position: absolute;
     right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
     background: transparent;
     border: none;
     font-size: 1.7rem;
     cursor: pointer;
     color: var(--text);
-    display: flex;
-    transition: var(--transition);
 }
-
-.menu-toggle:hover {
-    color: var(--primary);
-}
-
-/* القائمة المنسدلة */
 
 .nav {
     position: absolute;
     right: 20px;
     top: 60px;
-    background: rgba(10,12,20,0.98);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(12px);
     border-radius: 14px;
-    box-shadow: var(--shadow);
+    border: 1px solid rgba(0,0,0,0.08);
     padding: 10px 0;
-    width: 190px;
+    width: 180px;
     display: none;
     flex-direction: column;
-    animation: fadeIn 0.25s ease;
 }
 
 .nav.open {
@@ -139,389 +105,420 @@ img {
     padding: 10px 18px;
     text-decoration: none;
     color: var(--text-light);
-    font-weight: 500;
     font-size: 0.95rem;
-    transition: var(--transition);
 }
 
 .nav a:hover,
 .nav a.active {
-    background: rgba(255,255,255,0.04);
+    background: rgba(0,0,0,0.05);
     color: var(--primary);
 }
+/* =========================================================
+   4) Glass Hero Section
+========================================================= */
 
-/* 4) الأزرار */
-
-.btn {
-    padding: 10px 18px;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #0a84ff, #4f9dff);
-    color: #fff;
-    box-shadow: 0 10px 25px rgba(10,132,255,0.45);
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #0066cc, #3b82f6);
-    transform: translateY(-1px);
-    box-shadow: 0 14px 30px rgba(10,132,255,0.6);
-}
-
-/* 5) أقسام الأدوات العامة */
-
-main {
-    padding: 24px 0 40px;
-}
-
-.tool-section {
-    background: var(--card-bg);
+.hero-glass {
+    margin-top: 40px;
+    padding: 60px 40px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(18px);
     border-radius: var(--radius);
-    padding: 22px;
-    margin: 22px 0;
-    border: 1px solid rgba(255,255,255,0.08);
     box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
-    animation: fadeIn 0.4s ease;
+    text-align: center;
+    animation: fadeIn 0.8s ease;
 }
 
-.tool-section h2 {
-    font-size: 1.3rem;
-    margin-bottom: 14px;
+.hero-glass h1 {
+    font-size: 2.4rem;
+    margin-bottom: 15px;
+    color: var(--text);
 }
 
-.tool-section p {
+.hero-glass p {
+    font-size: 1.1rem;
     color: var(--text-light);
-    font-size: 0.95rem;
+    margin-bottom: 25px;
 }
 
-/* 6) بانر أبشر الزجاجي + Illustration */
+.hero-btn {
+    padding: 14px 28px;
+    font-size: 1.1rem;
+}
+
+/* =========================================================
+   5) Section Titles
+========================================================= */
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin: 60px 0 30px;
+    color: var(--text);
+}
+
+/* =========================================================
+   6) Glass Feature Cards
+========================================================= */
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 25px;
+}
+
+.glass-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px);
+    padding: 28px;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: 0.25s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+}
+
+.glass-card i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.glass-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.glass-card p {
+    color: var(--text-light);
+}
+
+/* =========================================================
+   7) Absher Banner (Glass)
+========================================================= */
 
 .absher-hero {
-    background: radial-gradient(circle at top left, rgba(10,132,255,0.32), transparent 55%),
-                radial-gradient(circle at bottom right, rgba(255,59,48,0.32), transparent 55%);
-    border-radius: 22px;
-    padding: 26px;
-    position: relative;
-    overflow: hidden;
-    margin-top: 26px;
-}
-
-.absher-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(10,12,20,0.78);
-    backdrop-filter: blur(22px);
-    border-radius: inherit;
-    z-index: 0;
+    margin-top: 80px;
+    margin-bottom: 80px;
 }
 
 .absher-hero-content {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
-    gap: 20px;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(18px);
+    padding: 40px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.absher-hero-text {
+    flex: 1;
 }
 
 .absher-hero-text h2 {
-    font-size: 1.6rem;
-    margin-bottom: 8px;
+    font-size: 1.9rem;
+    margin-bottom: 12px;
+    color: var(--text);
 }
 
 .absher-hero-text p {
     color: var(--text-light);
-    margin-bottom: 14px;
+    margin-bottom: 20px;
 }
 
 .absher-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.12);
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.35);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    margin-bottom: 12px;
+    font-size: 1.7rem;
+    color: var(--primary);
 }
-
-.absher-icon i {
-    font-size: 1.6rem;
-    color: #0a84ff;
-}
-
-/* Illustration */
 
 .absher-hero-illustration {
+    flex: 1;
     display: flex;
     justify-content: center;
 }
 
 .absher-card-ghost {
-    width: 210px;
-    height: 260px;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.08);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.55);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.absher-photo {
-    flex: 1;
-    border-radius: 14px;
-    background: linear-gradient(145deg, #f5f5f7, #dcdde1);
+    width: 220px;
+    height: 300px;
+    background: rgba(255,255,255,0.25);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
 }
 
-.absher-photo::before {
-    content: "";
-    position: absolute;
-    inset: 18% 22%;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 20%, #ffe0e0, #c4d7ff);
+.absher-photo {
+    width: 100%;
+    height: 65%;
+    background: #eaeaea;
 }
 
 .absher-lines {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    padding: 12px;
 }
 
 .absher-lines span {
     height: 6px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.7);
+    background: rgba(0,0,0,0.15);
+    border-radius: 6px;
 }
 
-/* 7) كروت الأدوات */
+/* =========================================================
+   Buttons
+========================================================= */
 
-.tool-selector {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 14px;
-    margin-top: 10px;
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: 0.25s ease;
 }
 
-.tool-btn {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 14px;
-    border-radius: 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: var(--transition);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.45);
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
 }
 
-.tool-btn:hover {
-    background: rgba(255,255,255,0.08);
-    transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 16px 35px rgba(0,0,0,0.6);
+.btn-primary:hover {
+    background: var(--primary-hover);
 }
 
-.tool-btn i {
-    font-size: 1.4rem;
-    margin-bottom: 6px;
-    display: block;
-    color: #9fb5ff;
+/* =========================================================
+   Animations
+========================================================= */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
+/* =========================================================
+   8) Modal (Popup)
+========================================================= */
 
-.tool-btn span {
-    font-size: 0.9rem;
-}
-
-/* 8) المودال الزجاجي */
-
-#tool-modal {
+.modal {
     position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at top, rgba(0,0,0,0.85), rgba(0,0,0,0.95));
-    display: none;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    z-index: 9999;
-    backdrop-filter: blur(10px);
-}
-
-#tool-modal .modal-content {
-    background: rgba(10,12,20,0.96);
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.12);
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 900px;
-    max-height: 90vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.85);
-    animation: modalFadeIn 0.25s ease;
-}
-
-.modal-header {
-    padding: 14px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    justify-content: space-between;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: none;
     align-items: center;
+    justify-content: center;
+    z-index: 200;
 }
 
-.modal-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
+.modal.open {
+    display: flex;
 }
 
-.modal-close,
-.modal-back {
-    background: transparent;
+.modal-content {
+    background: #fff;
+    padding: 25px;
+    border-radius: var(--radius);
+    width: 90%;
+    max-width: 450px;
+    box-shadow: var(--shadow);
+}
+
+.modal-content h3 {
+    margin-bottom: 12px;
+}
+
+.modal-content p {
+    color: var(--text-light);
+    margin-bottom: 18px;
+}
+
+.modal-close {
+    background: #eee;
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    cursor: pointer;
     border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: var(--text);
-    transition: var(--transition);
 }
 
-.modal-close:hover,
-.modal-back:hover {
-    color: var(--primary);
-}
+/* =========================================================
+   9) Tools Page
+========================================================= */
 
-.modal-body {
-    padding: 18px;
-    overflow-y: auto;
-}
-
-/* 9) Drop Zone + قبل/بعد لأبشر */
-
-.drop-zone {
-    border: 2px dashed rgba(255,255,255,0.18);
-    padding: 26px;
+.tools-header {
     text-align: center;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: var(--transition);
-    background: rgba(255,255,255,0.02);
+    margin-top: 40px;
 }
 
-.drop-zone:hover {
-    border-color: var(--primary);
-    background: rgba(255,255,255,0.04);
-}
-
-.drop-zone.active {
-    border-color: var(--primary);
-    background: rgba(10,132,255,0.12);
-}
-
-.absher-modal-layout {
+.tools-grid {
+    margin-top: 40px;
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-    gap: 18px;
-    margin-top: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 25px;
 }
 
-.absher-panel {
-    background: rgba(255,255,255,0.02);
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 12px;
+.tool-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px);
+    padding: 25px;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: 0.25s ease;
 }
 
-.absher-panel h4 {
-    font-size: 0.95rem;
+.tool-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+}
+
+.tool-card i {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.tool-card h3 {
     margin-bottom: 8px;
 }
 
-.absher-preview-box {
-    min-height: 200px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.02);
-    border: 1px dashed rgba(255,255,255,0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+/* =========================================================
+   10) About Page (من نحن)
+========================================================= */
+
+.about-section {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(14px);
+    border-radius: var(--radius);
+    padding: 40px;
+    margin-top: 50px;
+    box-shadow: var(--shadow);
 }
 
-.absher-preview-box img {
-    max-width: 100%;
-    border-radius: 10px;
+.about-section h2 {
+    font-size: 1.9rem;
+    margin-bottom: 15px;
 }
 
-/* 10) الفوتر */
+.about-section p {
+    color: var(--text-light);
+    margin-bottom: 18px;
+}
+
+.about-box {
+    margin-top: 25px;
+    padding: 25px;
+    background: rgba(255,255,255,0.45);
+    border-radius: var(--radius);
+    border: 1px solid var(--glass-border);
+}
+
+.about-box h3 {
+    margin-bottom: 10px;
+}
+
+/* =========================================================
+   11) Privacy Page (سياسة الخصوصية)
+========================================================= */
+
+.privacy-section {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(14px);
+    border-radius: var(--radius);
+    padding: 40px;
+    margin-top: 50px;
+    box-shadow: var(--shadow);
+}
+
+.privacy-section h2 {
+    font-size: 1.9rem;
+    margin-bottom: 15px;
+}
+
+.privacy-section h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.privacy-section p,
+.privacy-section li {
+    color: var(--text-light);
+    margin-bottom: 12px;
+}
+
+.privacy-section ul {
+    padding-right: 20px;
+}
+
+/* =========================================================
+   12) Footer
+========================================================= */
 
 .footer {
     text-align: center;
     padding: 25px;
+    margin-top: 80px;
     color: var(--text-light);
-    margin-top: 20px;
-    font-size: 0.85rem;
+}
+
+.footer .social-links {
+    margin-top: 10px;
 }
 
 .footer .social-links a {
-    color: var(--text-light);
     margin: 0 8px;
-    font-size: 1.1rem;
-    transition: var(--transition);
+    color: var(--text-light);
+    font-size: 1.3rem;
+    transition: 0.25s ease;
 }
 
 .footer .social-links a:hover {
     color: var(--primary);
 }
 
-/* 11) Responsive */
+/* =========================================================
+   13) Responsive
+========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 820px) {
     .absher-hero-content {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        text-align: center;
     }
 
     .absher-hero-illustration {
         order: -1;
     }
-
-    .tool-section {
-        padding: 18px;
-    }
-
-    .tool-selector {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    #tool-modal .modal-content {
-        max-width: 100%;
-    }
-
-    .absher-modal-layout {
-        grid-template-columns: 1fr;
-    }
 }
 
-/* 12) Animations */
+@media (max-width: 600px) {
+    .hero-glass {
+        padding: 40px 20px;
+    }
 
-@keyframes modalFadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    .absher-hero-content {
+        padding: 25px;
+    }
 }
