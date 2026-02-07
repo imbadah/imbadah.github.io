@@ -157,16 +157,31 @@
 
 <header class="header">
   <div class="container">
-    <a href="index.html" class="logo">Pdf<span>Swift</span></a>
-    <nav class="nav">
+
+    <!-- زر القائمة (هامبرغر) للجوال -->
+    <button class="menu-toggle" aria-label="قائمة" onclick="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- الشعار في المنتصف -->
+    <a href="index.html" class="logo" aria-label="الرئيسية" style="font-size:1.7rem; font-weight:700; text-decoration:none;">
+      <span style="color:#000;">PDF</span><span style="color:#1e40af; margin-left:6px;">SWIFT</span>
+    </a>
+
+    <!-- القائمة -->
+    <nav class="nav" id="mobileMenu">
       <a href="index.html">الرئيسية</a>
+      <a href="absher-photo.html">أداة الصور</a>
       <a href="tools.html" class="active">الأدوات</a>
       <a href="about.html">عن الموقع</a>
-      <a href="privacy.html">الخصوصية</a>
+      <a href="privacy.html">سياسة الخصوصية</a>
     </nav>
-    <button id="themeToggle" class="theme-btn">
-      <i class="fa-solid fa-moon-stars"></i>
+
+    <!-- زر الوضع الليلي -->
+    <button id="themeToggle" class="theme-btn" aria-label="تبديل الوضع">
+      <i class="fas fa-moon"></i>
     </button>
+
   </div>
 </header>
 
