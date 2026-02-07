@@ -1,51 +1,45 @@
 /* =========================================================
-   PdfSwift — UI KIT (Neutral Modern Theme — Premium Edition)
-   نسخة فاخرة + محسّنة + متوافقة مع الأدوات والنوافذ
+   PdfSwift — UI KIT (Premium Glass UI)
 ========================================================= */
 
-/* ---------------------------------------------------------
-   1) المتغيرات (CSS Variables)
---------------------------------------------------------- */
+/* 1) المتغيرات العامة */
 
 :root {
-    --bg: #f5f5f7;
-    --card-bg: #ffffff;
-    --text: #222;
-    --text-light: #555;
-    --border: rgba(0,0,0,0.1);
-    --primary: #007bff;
-    --primary-hover: #0069d9;
-    --radius: 14px;
-    --shadow: 0 8px 25px rgba(0,0,0,0.08);
+    --bg: #05060a;
+    --bg-soft: #0b0d13;
+    --card-bg: rgba(18, 20, 30, 0.92);
+    --glass: rgba(255,255,255,0.06);
+    --glass-strong: rgba(255,255,255,0.16);
+    --text: #f5f5f7;
+    --text-light: #a0a3b1;
+    --border: rgba(255,255,255,0.12);
+    --primary: #0a84ff;
+    --primary-hover: #0066cc;
+    --danger: #ff4b5c;
+    --radius: 18px;
+    --shadow: 0 18px 45px rgba(0,0,0,0.55);
     --transition: 0.25s ease;
 }
 
 .dark-mode {
-    --bg: #1c1c1e;
-    --card-bg: #2c2c2e;
-    --text: #f1f1f1;
-    --text-light: #ccc;
-    --border: rgba(255,255,255,0.1);
-    --primary: #0a84ff;
-    --primary-hover: #0066cc;
+    /* نفس القيم تقريبًا، ممكن تعدّل لاحقًا لو حبيت */
 }
 
-/* ---------------------------------------------------------
-   2) Reset + قواعد أساسية
---------------------------------------------------------- */
+/* 2) Reset + أساسيات */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Tajawal", sans-serif;
+    font-family: "Tajawal", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
-    background: var(--bg);
+    background: radial-gradient(circle at top, #151827 0, #05060a 55%);
     color: var(--text);
     line-height: 1.6;
     transition: background var(--transition), color var(--transition);
+    min-height: 100vh;
 }
 
 img {
@@ -59,29 +53,28 @@ img {
     margin: auto;
 }
 
-/* ---------------------------------------------------------
-   3) الهيدر الجديد (Premium Header)
---------------------------------------------------------- */
+/* 3) الهيدر + الشعار + القائمة */
 
 .header {
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 0;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    backdrop-filter: blur(6px);
+    background: linear-gradient(to bottom, rgba(5,6,10,0.96), rgba(5,6,10,0.85));
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    padding: 10px 0;
 }
 
 .header .container {
     display: flex;
     align-items: center;
-    justify-content: center; /* الشعار في المنتصف */
+    justify-content: center;
     position: relative;
 }
 
 /* شعار PDFSWIFT */
+
 .logo {
     font-size: 1.7rem;
     font-weight: 800;
@@ -94,14 +87,15 @@ img {
 }
 
 .logo span.pdf {
-    color: #b30000; /* أحمر غامق */
+    color: #ff3b30; /* أحمر قوي */
 }
 
 .logo span.swift {
-    color: #003d99; /* أزرق غامق */
+    color: #0a84ff; /* أزرق قوي */
 }
 
 /* زر الهامبرغر */
+
 .menu-toggle {
     position: absolute;
     right: 20px;
@@ -121,16 +115,17 @@ img {
 }
 
 /* القائمة المنسدلة */
+
 .nav {
     position: absolute;
     right: 20px;
     top: 60px;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    background: rgba(10,12,20,0.98);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
     box-shadow: var(--shadow);
-    padding: 12px 0;
-    width: 180px;
+    padding: 10px 0;
+    width: 190px;
     display: none;
     flex-direction: column;
     animation: fadeIn 0.25s ease;
@@ -141,145 +136,248 @@ img {
 }
 
 .nav a {
-    padding: 12px 18px;
+    padding: 10px 18px;
     text-decoration: none;
-    color: var(--text);
+    color: var(--text-light);
     font-weight: 500;
+    font-size: 0.95rem;
     transition: var(--transition);
 }
 
-.nav a:hover {
-    background: var(--bg);
+.nav a:hover,
+.nav a.active {
+    background: rgba(255,255,255,0.04);
     color: var(--primary);
 }
 
-/* ---------------------------------------------------------
-   4) الأزرار (Premium Buttons)
---------------------------------------------------------- */
+/* 4) الأزرار */
 
 .btn {
     padding: 10px 18px;
-    border-radius: var(--radius);
+    border-radius: 999px;
     border: none;
     cursor: pointer;
     font-weight: 600;
+    font-size: 0.95rem;
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .btn-primary {
-    background: var(--primary);
+    background: linear-gradient(135deg, #0a84ff, #4f9dff);
     color: #fff;
+    box-shadow: 0 10px 25px rgba(10,132,255,0.45);
 }
 
 .btn-primary:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #0066cc, #3b82f6);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(10,132,255,0.6);
 }
 
-/* ---------------------------------------------------------
-   5) أقسام الأدوات (Tool Sections)
---------------------------------------------------------- */
+/* 5) أقسام الأدوات العامة */
+
+main {
+    padding: 24px 0 40px;
+}
 
 .tool-section {
     background: var(--card-bg);
-    padding: 25px;
-    margin: 25px 0;
     border-radius: var(--radius);
+    padding: 22px;
+    margin: 22px 0;
+    border: 1px solid rgba(255,255,255,0.08);
     box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
     animation: fadeIn 0.4s ease;
 }
 
 .tool-section h2 {
-    margin-bottom: 20px;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 14px;
 }
 
-/* الكروت — نسخة مصغرة */
+.tool-section p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+/* 6) بانر أبشر الزجاجي + Illustration */
+
+.absher-hero {
+    background: radial-gradient(circle at top left, rgba(10,132,255,0.32), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(255,59,48,0.32), transparent 55%);
+    border-radius: 22px;
+    padding: 26px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 26px;
+}
+
+.absher-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(10,12,20,0.78);
+    backdrop-filter: blur(22px);
+    border-radius: inherit;
+    z-index: 0;
+}
+
+.absher-hero-content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+    gap: 20px;
+    align-items: center;
+}
+
+.absher-hero-text h2 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+
+.absher-hero-text p {
+    color: var(--text-light);
+    margin-bottom: 14px;
+}
+
+.absher-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.absher-icon i {
+    font-size: 1.6rem;
+    color: #0a84ff;
+}
+
+/* Illustration */
+
+.absher-hero-illustration {
+    display: flex;
+    justify-content: center;
+}
+
+.absher-card-ghost {
+    width: 210px;
+    height: 260px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.absher-photo {
+    flex: 1;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #f5f5f7, #dcdde1);
+    position: relative;
+    overflow: hidden;
+}
+
+.absher-photo::before {
+    content: "";
+    position: absolute;
+    inset: 18% 22%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 20%, #ffe0e0, #c4d7ff);
+}
+
+.absher-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.absher-lines span {
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.7);
+}
+
+/* 7) كروت الأدوات */
+
 .tool-selector {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+    margin-top: 10px;
 }
 
 .tool-btn {
-    background: var(--bg);
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
     padding: 14px;
-    border-radius: var(--radius);
+    border-radius: 16px;
     text-align: center;
     cursor: pointer;
     transition: var(--transition);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.45);
 }
 
 .tool-btn:hover {
-    background: var(--card-bg);
-    box-shadow: var(--shadow);
-    transform: translateY(-3px);
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 16px 35px rgba(0,0,0,0.6);
 }
 
 .tool-btn i {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     margin-bottom: 6px;
     display: block;
+    color: #9fb5ff;
 }
 
-/* ---------------------------------------------------------
-   6) أداة أبشر
---------------------------------------------------------- */
-
-.absher-box {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+.tool-btn span {
+    font-size: 0.9rem;
 }
 
-#absher-crop-area {
-    background: var(--bg);
-    border: 1px dashed var(--border);
-    padding: 20px;
-    border-radius: var(--radius);
-    min-height: 200px;
-}
-
-#absher-result img {
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-}
-
-/* ---------------------------------------------------------
-   7) النوافذ (Premium Modals)
---------------------------------------------------------- */
+/* 8) المودال الزجاجي */
 
 #tool-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.55);
+    background: radial-gradient(circle at top, rgba(0,0,0,0.85), rgba(0,0,0,0.95));
     display: none;
     justify-content: center;
     align-items: center;
     padding: 20px;
     z-index: 9999;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(10px);
 }
 
 #tool-modal .modal-content {
-    background: var(--card-bg);
-    color: var(--text);
+    background: rgba(10,12,20,0.96);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.12);
     width: 100%;
     max-width: 900px;
     max-height: 90vh;
-    border-radius: 18px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.85);
     animation: modalFadeIn 0.25s ease;
 }
 
 .modal-header {
-    padding: 16px 22px;
-    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -287,14 +385,14 @@ img {
 
 .modal-header h3 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .modal-close,
 .modal-back {
     background: transparent;
     border: none;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     cursor: pointer;
     color: var(--text);
     transition: var(--transition);
@@ -306,61 +404,81 @@ img {
 }
 
 .modal-body {
-    padding: 20px;
+    padding: 18px;
     overflow-y: auto;
 }
 
-/* ---------------------------------------------------------
-   8) Drop Zone (سحب وإفلات)
---------------------------------------------------------- */
+/* 9) Drop Zone + قبل/بعد لأبشر */
 
 .drop-zone {
-    border: 2px dashed var(--border);
-    padding: 30px;
+    border: 2px dashed rgba(255,255,255,0.18);
+    padding: 26px;
     text-align: center;
-    border-radius: var(--radius);
+    border-radius: 16px;
     cursor: pointer;
     transition: var(--transition);
-    background: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.02);
 }
 
 .drop-zone:hover {
     border-color: var(--primary);
+    background: rgba(255,255,255,0.04);
 }
 
 .drop-zone.active {
     border-color: var(--primary);
-    background: rgba(0,123,255,0.08);
+    background: rgba(10,132,255,0.12);
 }
 
-.file-list {
-    list-style: none;
-    margin-top: 10px;
+.absher-modal-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+    gap: 18px;
+    margin-top: 18px;
 }
 
-.file-list li {
-    padding: 10px 12px;
-    background: var(--card-bg);
-    border-radius: var(--radius);
+.absher-panel {
+    background: rgba(255,255,255,0.02);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 12px;
+}
+
+.absher-panel h4 {
+    font-size: 0.95rem;
     margin-bottom: 8px;
-    border: 1px solid var(--border);
 }
 
-/* ---------------------------------------------------------
-   9) الفوتر
---------------------------------------------------------- */
+.absher-preview-box {
+    min-height: 200px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px dashed rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.absher-preview-box img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* 10) الفوتر */
 
 .footer {
     text-align: center;
     padding: 25px;
     color: var(--text-light);
-    margin-top: 40px;
+    margin-top: 20px;
+    font-size: 0.85rem;
 }
 
 .footer .social-links a {
     color: var(--text-light);
     margin: 0 8px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     transition: var(--transition);
 }
 
@@ -368,9 +486,35 @@ img {
     color: var(--primary);
 }
 
-/* ---------------------------------------------------------
-   10) Animations
---------------------------------------------------------- */
+/* 11) Responsive */
+
+@media (max-width: 768px) {
+    .absher-hero-content {
+        grid-template-columns: 1fr;
+    }
+
+    .absher-hero-illustration {
+        order: -1;
+    }
+
+    .tool-section {
+        padding: 18px;
+    }
+
+    .tool-selector {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #tool-modal .modal-content {
+        max-width: 100%;
+    }
+
+    .absher-modal-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 12) Animations */
 
 @keyframes modalFadeIn {
     from { opacity: 0; transform: translateY(20px); }
