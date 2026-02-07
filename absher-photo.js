@@ -1,54 +1,46 @@
-/* ============================================================
-   تحميل نماذج face-api لكشف الوجه
-============================================================ */
+/* تحميل نماذج face-api */
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri("https://cdn.jsdelivr.net/npm/face-api.js/models"),
 ]).then(() => console.log("Face API Loaded"));
 
 let cropper = null;
 
-/* ============================================================
-   فتح المودال + إعادة تهيئة الأدوات
-============================================================ */
-function openModal(id) {
-  const modal = document.getElementById(id);
-  if (!modal) return;
-
-  modal.style.display = "flex";
-
-  // إعادة تهيئة كل أداة عند فتح المودال
-  if (id === "absher-modal") resetAbsherTool();
-  if (id === "remove-bg-modal") resetRemoveBG();
-  if (id === "enhance-modal") resetEnhance();
-  if (id === "compress-modal") resetCompress();
-  if (id === "convert-modal") resetConvert();
-}
-
-function closeModal(id) {
-  const modal = document.getElementById(id);
-  if (modal) modal.style.display = "none";
-}
-
-/* ============================================================
-   إعادة تهيئة أداة أبشر
-============================================================ */
-function resetAbsherTool() {
+/* عند فتح مودال أبشر — إعادة تهيئة */
+function openAbsherModal() {
   const img = document.getElementById("image-preview");
-  img.src = "";
-  img.style.display = "none";
 
-  document.getElementById("result-preview").innerHTML = "";
-  document.getElementById("status").textContent = "";
-
-  if (cropper) {
-    cropper.destroy();
-    cropper = null;
+  if (img.src && img.style.display !== "none") {
+    setTimeout(() => {
+      if (cropper) cropper.destroy();
+      cropper = new Cropper(img, {
+        viewMode: 1,
+        aspectRatio: 1,
+        autoCropArea: 1,
+        movable: true,
+        zoomable: true,
+        scalable: true,
+        rotatable: true,
+        background: false,
+      });
+      detectFace();
+    }, 200);
   }
 }
 
-/* ============================================================
-   رفع صورة أبشر + تشغيل Cropper
-============================================================ */
+/* فتح مودال عام */
+function openModal(id) {
+  const modal = document.getElementById(id);
+  modal.style.display = "flex";
+
+  if (id === "absher-modal") openAbsherModal();
+}
+
+/* إغلاق مودال */
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+/* رفع صورة أبشر */
 document.getElementById("upload-image").addEventListener("change", function () {
   const file = this.files[0];
   if (!file) return;
@@ -59,7 +51,6 @@ document.getElementById("upload-image").addEventListener("change", function () {
 
   if (cropper) cropper.destroy();
 
-  // تأخير بسيط حتى يظهر المودال
   setTimeout(() => {
     cropper = new Cropper(img, {
       viewMode: 1,
@@ -71,14 +62,11 @@ document.getElementById("upload-image").addEventListener("change", function () {
       rotatable: true,
       background: false,
     });
-
     detectFace();
   }, 200);
 });
 
-/* ============================================================
-   كشف الوجه تلقائيًا
-============================================================ */
+/* كشف الوجه */
 async function detectFace() {
   const img = document.getElementById("image-preview");
   if (!img.src) return;
@@ -88,7 +76,7 @@ async function detectFace() {
     new faceapi.TinyFaceDetectorOptions()
   );
 
-  if (!detection) return;
+  if (!detection || !cropper) return;
 
   const box = detection.box;
 
@@ -100,26 +88,20 @@ async function detectFace() {
   });
 }
 
-/* ============================================================
-   إظهار حقول المقاس المخصص
-============================================================ */
+/* إظهار المقاس المخصص */
 document.getElementById("preset-size").addEventListener("change", function () {
   const custom = this.value === "custom";
   document.getElementById("custom-width").style.display = custom ? "block" : "none";
   document.getElementById("custom-height").style.display = custom ? "block" : "none";
 });
 
-/* ============================================================
-   إظهار لون الخلفية المخصص
-============================================================ */
+/* إظهار لون الخلفية */
 document.getElementById("background").addEventListener("change", function () {
   document.getElementById("custom-bg").style.display =
     this.value === "custom" ? "block" : "none";
 });
 
-/* ============================================================
-   زر تعديل الصورة لأبشر
-============================================================ */
+/* زر تنفيذ أداة أبشر */
 document.getElementById("process-btn").addEventListener("click", async () => {
   const status = document.getElementById("status");
   status.textContent = "جاري معالجة الصورة...";
@@ -148,7 +130,6 @@ document.getElementById("process-btn").addEventListener("click", async () => {
   if (bgType === "transparent") bg = null;
   if (bgType === "custom") bg = document.getElementById("custom-bg").value;
 
-  const dpi = parseInt(document.getElementById("dpi").value);
   const maxKB = parseInt(document.getElementById("max-size").value);
   const format = document.getElementById("format").value;
 
@@ -179,18 +160,7 @@ document.getElementById("process-btn").addEventListener("click", async () => {
   status.className = "status success";
 });
 
-/* ============================================================
-   إعادة تهيئة أداة إزالة الخلفية
-============================================================ */
-function resetRemoveBG() {
-  document.getElementById("remove-bg-input").value = "";
-  document.getElementById("remove-bg-status").textContent = "";
-  document.getElementById("remove-bg-preview").innerHTML = "";
-}
-
-/* ============================================================
-   إزالة الخلفية
-============================================================ */
+/* إزالة الخلفية */
 document.getElementById("remove-bg-btn").addEventListener("click", async () => {
   const file = document.getElementById("remove-bg-input").files[0];
   const status = document.getElementById("remove-bg-status");
@@ -234,18 +204,7 @@ document.getElementById("remove-bg-btn").addEventListener("click", async () => {
   status.className = "status success";
 });
 
-/* ============================================================
-   إعادة تهيئة أداة تحسين الجودة
-============================================================ */
-function resetEnhance() {
-  document.getElementById("enhance-input").value = "";
-  document.getElementById("enhance-status").textContent = "";
-  document.getElementById("enhance-preview").innerHTML = "";
-}
-
-/* ============================================================
-   تحسين الجودة
-============================================================ */
+/* تحسين الجودة */
 document.getElementById("enhance-btn").addEventListener("click", async () => {
   const file = document.getElementById("enhance-input").files[0];
   const status = document.getElementById("enhance-status");
@@ -280,18 +239,7 @@ document.getElementById("enhance-btn").addEventListener("click", async () => {
   status.className = "status success";
 });
 
-/* ============================================================
-   إعادة تهيئة أداة الضغط
-============================================================ */
-function resetCompress() {
-  document.getElementById("compress-input").value = "";
-  document.getElementById("compress-status").textContent = "";
-  document.getElementById("compress-preview").innerHTML = "";
-}
-
-/* ============================================================
-   ضغط الصور
-============================================================ */
+/* ضغط الصور */
 document.getElementById("compress-btn").addEventListener("click", async () => {
   const file = document.getElementById("compress-input").files[0];
   const maxKB = parseInt(document.getElementById("compress-size").value);
@@ -333,18 +281,7 @@ document.getElementById("compress-btn").addEventListener("click", async () => {
   status.className = "status success";
 });
 
-/* ============================================================
-   إعادة تهيئة أداة التحويل
-============================================================ */
-function resetConvert() {
-  document.getElementById("convert-input").value = "";
-  document.getElementById("convert-status").textContent = "";
-  document.getElementById("convert-preview").innerHTML = "";
-}
-
-/* ============================================================
-   تحويل الصور
-============================================================ */
+/* تحويل الصور */
 document.getElementById("convert-btn").addEventListener("click", async () => {
   const file = document.getElementById("convert-input").files[0];
   const format = document.getElementById("convert-format").value;
