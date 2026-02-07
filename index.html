@@ -25,7 +25,6 @@
 
             <nav class="nav">
                 <a href="index.html" class="active">الرئيسية</a>
-                <a href="tools.html">الأدوات</a>
                 <a href="about.html">من نحن</a>
                 <a href="privacy.html">سياسة الخصوصية</a>
             </nav>
@@ -62,104 +61,106 @@
         </button>
     </section>
 
-    <!-- قسم الأدوات الرئيسي (الكروت الأصلية) -->
-    <section class="hero container">
-        <h2 class="section-title">حوّل ملفاتك وصورك بسهولة واحترافية</h2>
-        <p>مجموعة من الأدوات السريعة والآمنة لمعالجة ملفات PDF والصور مباشرة من المتصفح.</p>
-    </section>
-
-    <!-- أدوات PDF -->
+    <!-- مجموعة أدوات PDF -->
     <section class="tools-section container">
-        <h3 class="section-subtitle">أدوات PDF</h3>
+        <div class="tool-card" style="width:100%; padding:25px;">
+            <h3 class="section-subtitle" style="margin-bottom:20px; font-size:22px;">
+                📄 مجموعة أدوات PDF
+            </h3>
 
-        <div class="tools-grid">
+            <div class="tools-grid">
 
-            <div class="tool-card">
-                <i class="fas fa-layer-group"></i>
-                <h3>دمج ملفات PDF</h3>
-                <p>ادمج عدة ملفات PDF في ملف واحد بسهولة.</p>
-                <button class="btn btn-primary" onclick="openTool('mergepdf')">فتح الأداة</button>
+                <div class="tool-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>دمج ملفات PDF</h3>
+                    <p>ادمج عدة ملفات PDF في ملف واحد بسهولة.</p>
+                    <button class="btn btn-primary" onclick="openTool('mergepdf')">فتح الأداة</button>
+                </div>
+
+                <div class="tool-card">
+                    <i class="fas fa-compress-alt"></i>
+                    <h3>ضغط PDF</h3>
+                    <p>قلل حجم ملف PDF بدون فقدان كبير للجودة.</p>
+                    <button class="btn btn-primary" onclick="openTool('compresspdf')">فتح الأداة</button>
+                </div>
+
+                <div class="tool-card">
+                    <i class="fas fa-scissors"></i>
+                    <h3>تقسيم PDF</h3>
+                    <p>قسّم ملف PDF إلى عدة ملفات حسب الصفحات.</p>
+                    <button class="btn btn-primary" onclick="openTool('splitpdf')">فتح الأداة</button>
+                </div>
+
+                <div class="tool-card">
+                    <i class="fas fa-file-image"></i>
+                    <h3>PDF إلى صور</h3>
+                    <p>استخرج صفحات PDF كصور عالية الجودة.</p>
+                    <button class="btn btn-primary" onclick="openTool('pdf2img')">فتح الأداة</button>
+                </div>
+
+                <div class="tool-card">
+                    <i class="fas fa-file-arrow-up"></i>
+                    <h3>صور إلى PDF</h3>
+                    <p>حوّل أي صورة إلى ملف PDF بسهولة.</p>
+                    <button class="btn btn-primary" onclick="openTool('img2pdf')">فتح الأداة</button>
+                </div>
+
             </div>
-
-            <div class="tool-card">
-                <i class="fas fa-compress-alt"></i>
-                <h3>ضغط PDF</h3>
-                <p>قلل حجم ملف PDF بدون فقدان كبير للجودة.</p>
-                <button class="btn btn-primary" onclick="openTool('compresspdf')">فتح الأداة</button>
-            </div>
-
-            <div class="tool-card">
-                <i class="fas fa-scissors"></i>
-                <h3>تقسيم PDF</h3>
-                <p>قسّم ملف PDF إلى عدة ملفات حسب الصفحات.</p>
-                <button class="btn btn-primary" onclick="openTool('splitpdf')">فتح الأداة</button>
-            </div>
-
-            <div class="tool-card">
-                <i class="fas fa-file-image"></i>
-                <h3>PDF إلى صور</h3>
-                <p>استخرج صفحات PDF كصور عالية الجودة.</p>
-                <button class="btn btn-primary" onclick="openTool('pdf2img')">فتح الأداة</button>
-            </div>
-
-            <div class="tool-card">
-                <i class="fas fa-file-arrow-up"></i>
-                <h3>صور إلى PDF</h3>
-                <p>حوّل أي صورة إلى ملف PDF بسهولة.</p>
-                <button class="btn btn-primary" onclick="openTool('img2pdf')">فتح الأداة</button>
-            </div>
-
         </div>
     </section>
 
-    <!-- أدوات الصور -->
+    <!-- مجموعة أدوات الصور -->
     <section class="tools-section container">
-        <h3 class="section-subtitle">أدوات الصور</h3>
+        <div class="tool-card" style="width:100%; padding:25px;">
+            <h3 class="section-subtitle" style="margin-bottom:20px; font-size:22px;">
+                🖼 مجموعة أدوات الصور
+            </h3>
 
-        <div class="tools-grid">
+            <div class="tools-grid">
 
-            <div class="tool-card">
-                <i class="fas fa-crop"></i>
-                <h3>قص الصورة</h3>
-                <p>قص الصور بسهولة وبالدقة المطلوبة.</p>
-                <button class="btn btn-primary" onclick="openTool('crop')">فتح الأداة</button>
+                <div class="tool-card">
+                    <i class="fas fa-crop"></i>
+                    <h3>قص الصورة</h3>
+                    <p>قص الصور بسهولة وبالدقة المطلوبة.</p>
+                    <button class="btn btn-primary" onclick="openTool('crop')">فتح الأداة</button>
+                </div>
+
+                <div class="tool-card">
+                    <i class="fas fa-expand"></i>
+                    <h3>تغيير الحجم</h3>
+                    <p>تغيير أبعاد الصور بسهولة.</p>
+                    <button class="btn btn-primary" onclick="openTool('resize')">فتح الأداة</button>
+                </div>
+
+                <div class="tool-card">
+                    <i class="fas fa-sync"></i>
+                    <h3>تغيير الصيغة</h3>
+                    <p>تحويل الصور بين مختلف الصيغ.</p>
+                    <button class="btn btn-primary" onclick="openTool('format')">فتح الأداة</button>
+                </div>
+
+                <div class="tool-card">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                    <h3>تحسين الجودة</h3>
+                    <p>رفع جودة الصور تلقائيًا.</p>
+                    <button class="btn btn-primary" onclick="openTool('enhance')">فتح الأداة</button>
+                </div>
+
+                <div class="tool-card">
+                    <i class="fas fa-rotate"></i>
+                    <h3>تدوير الصورة</h3>
+                    <p>تدوير الصور لليمين أو اليسار.</p>
+                    <button class="btn btn-primary" onclick="openTool('rotate')">فتح الأداة</button>
+                </div>
+
+                <div class="tool-card">
+                    <i class="fas fa-image"></i>
+                    <h3>تجهيز صورة أبشر</h3>
+                    <p>تهيئة الصورة تلقائيًا لمتطلبات منصة أبشر.</p>
+                    <button class="btn btn-primary" onclick="openTool('absher')">فتح الأداة</button>
+                </div>
+
             </div>
-
-            <div class="tool-card">
-                <i class="fas fa-expand"></i>
-                <h3>تغيير الحجم</h3>
-                <p>تغيير أبعاد الصور بسهولة.</p>
-                <button class="btn btn-primary" onclick="openTool('resize')">فتح الأداة</button>
-            </div>
-
-            <div class="tool-card">
-                <i class="fas fa-sync"></i>
-                <h3>تغيير الصيغة</h3>
-                <p>تحويل الصور بين مختلف الصيغ.</p>
-                <button class="btn btn-primary" onclick="openTool('format')">فتح الأداة</button>
-            </div>
-
-            <div class="tool-card">
-                <i class="fas fa-wand-magic-sparkles"></i>
-                <h3>تحسين الجودة</h3>
-                <p>رفع جودة الصور تلقائيًا.</p>
-                <button class="btn btn-primary" onclick="openTool('enhance')">فتح الأداة</button>
-            </div>
-
-            <div class="tool-card">
-                <i class="fas fa-rotate"></i>
-                <h3>تدوير الصورة</h3>
-                <p>تدوير الصور لليمين أو اليسار.</p>
-                <button class="btn btn-primary" onclick="openTool('rotate')">فتح الأداة</button>
-            </div>
-
-            <div class="tool-card">
-                <i class="fas fa-image"></i>
-                <h3>تجهيز صورة أبشر</h3>
-                <p>تهيئة الصورة تلقائيًا لمتطلبات منصة أبشر.</p>
-                <button class="btn btn-primary" onclick="openTool('absher')">فتح الأداة</button>
-            </div>
-
         </div>
     </section>
 
