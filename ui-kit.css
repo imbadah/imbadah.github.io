@@ -1,6 +1,6 @@
 /* =========================================================
-   PdfSwift — UI KIT (Neutral Modern Theme)
-   نسخة مرتبة + محسّنة + متوافقة مع الأدوات والنوافذ
+   PdfSwift — UI KIT (Neutral Modern Theme — Premium Edition)
+   نسخة فاخرة + محسّنة + متوافقة مع الأدوات والنوافذ
 ========================================================= */
 
 /* ---------------------------------------------------------
@@ -17,6 +17,7 @@
     --primary-hover: #0069d9;
     --radius: 14px;
     --shadow: 0 8px 25px rgba(0,0,0,0.08);
+    --transition: 0.25s ease;
 }
 
 .dark-mode {
@@ -44,6 +45,7 @@ body {
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
+    transition: background var(--transition), color var(--transition);
 }
 
 img {
@@ -58,55 +60,101 @@ img {
 }
 
 /* ---------------------------------------------------------
-   3) الهيدر
+   3) الهيدر الجديد (Premium Header)
 --------------------------------------------------------- */
 
 .header {
     background: var(--card-bg);
     border-bottom: 1px solid var(--border);
-    padding: 14px 0;
+    padding: 12px 0;
     position: sticky;
     top: 0;
-    z-index: 50;
-    box-shadow: var(--shadow);
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    backdrop-filter: blur(6px);
 }
 
 .header .container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* الشعار في المنتصف */
+    position: relative;
 }
 
+/* شعار PDFSWIFT */
 .logo {
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: var(--text);
+    font-size: 1.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     text-decoration: none;
-}
-
-.nav {
     display: flex;
-    gap: 20px;
+    gap: 4px;
+    user-select: none;
 }
 
-.nav a {
-    color: var(--text-light);
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.2s;
+.logo span.pdf {
+    color: #b30000; /* أحمر غامق */
 }
 
-.nav a:hover,
-.nav a.active {
+.logo span.swift {
+    color: #003d99; /* أزرق غامق */
+}
+
+/* زر الهامبرغر */
+.menu-toggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 1.7rem;
+    cursor: pointer;
+    color: var(--text);
+    display: flex;
+    transition: var(--transition);
+}
+
+.menu-toggle:hover {
     color: var(--primary);
 }
 
-.menu-toggle {
+/* القائمة المنسدلة */
+.nav {
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 12px 0;
+    width: 180px;
     display: none;
+    flex-direction: column;
+    animation: fadeIn 0.25s ease;
+}
+
+.nav.open {
+    display: flex;
+}
+
+.nav a {
+    padding: 12px 18px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav a:hover {
+    background: var(--bg);
+    color: var(--primary);
 }
 
 /* ---------------------------------------------------------
-   4) الأزرار
+   4) الأزرار (Premium Buttons)
 --------------------------------------------------------- */
 
 .btn {
@@ -115,7 +163,7 @@ img {
     border: none;
     cursor: pointer;
     font-weight: 600;
-    transition: 0.25s;
+    transition: var(--transition);
 }
 
 .btn-primary {
@@ -125,10 +173,11 @@ img {
 
 .btn-primary:hover {
     background: var(--primary-hover);
+    transform: translateY(-2px);
 }
 
 /* ---------------------------------------------------------
-   5) أقسام الأدوات
+   5) أقسام الأدوات (Tool Sections)
 --------------------------------------------------------- */
 
 .tool-section {
@@ -137,27 +186,30 @@ img {
     margin: 25px 0;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    animation: fadeIn 0.4s ease;
 }
 
 .tool-section h2 {
     margin-bottom: 20px;
     font-size: 1.4rem;
+    font-weight: 700;
 }
 
+/* الكروت — نسخة مصغرة */
 .tool-selector {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
 }
 
 .tool-btn {
     background: var(--bg);
     border: 1px solid var(--border);
-    padding: 18px;
+    padding: 14px;
     border-radius: var(--radius);
     text-align: center;
     cursor: pointer;
-    transition: 0.25s;
+    transition: var(--transition);
 }
 
 .tool-btn:hover {
@@ -167,8 +219,8 @@ img {
 }
 
 .tool-btn i {
-    font-size: 1.6rem;
-    margin-bottom: 8px;
+    font-size: 1.3rem;
+    margin-bottom: 6px;
     display: block;
 }
 
@@ -196,7 +248,7 @@ img {
 }
 
 /* ---------------------------------------------------------
-   7) النوافذ (Modals)
+   7) النوافذ (Premium Modals)
 --------------------------------------------------------- */
 
 #tool-modal {
@@ -222,7 +274,7 @@ img {
     display: flex;
     flex-direction: column;
     box-shadow: 0 25px 60px rgba(0,0,0,0.25);
-    animation: modalFadeIn .25s ease;
+    animation: modalFadeIn 0.25s ease;
 }
 
 .modal-header {
@@ -238,17 +290,19 @@ img {
     font-size: 1.2rem;
 }
 
-.modal-close {
+.modal-close,
+.modal-back {
     background: transparent;
     border: none;
     font-size: 1.3rem;
     cursor: pointer;
     color: var(--text);
-    transition: 0.2s;
+    transition: var(--transition);
 }
 
-.modal-close:hover {
-    color: #ff4444;
+.modal-close:hover,
+.modal-back:hover {
+    color: var(--primary);
 }
 
 .modal-body {
@@ -266,7 +320,7 @@ img {
     text-align: center;
     border-radius: var(--radius);
     cursor: pointer;
-    transition: 0.25s;
+    transition: var(--transition);
     background: rgba(255,255,255,0.6);
 }
 
@@ -307,7 +361,7 @@ img {
     color: var(--text-light);
     margin: 0 8px;
     font-size: 1.2rem;
-    transition: 0.2s;
+    transition: var(--transition);
 }
 
 .footer .social-links a:hover {
@@ -320,5 +374,10 @@ img {
 
 @keyframes modalFadeIn {
     from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
 }
