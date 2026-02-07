@@ -3,29 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أدوات PdfSwift</title>
+    <title>الأدوات — PdfSwift</title>
 
-    <!-- الخطوط والأيقونات -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <!-- ستايل الموقع -->
     <link rel="stylesheet" href="ui-kit.css">
-
-    <!-- مكتبات Cropper.js (للأدوات التي تحتاج قص يدوي) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-
-    <!-- مكتبة Compressor.js (ضغط الصور) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/compressorjs/1.2.1/compressor.min.js"></script>
-
-    <!-- مكتبة pdf-lib (أدوات PDF) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
 
-    <!-- الهيدر الجديد -->
+    <!-- الهيدر -->
     <header class="header">
         <div class="container">
 
@@ -47,98 +33,58 @@
         </div>
     </header>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="container">
+    <!-- عنوان الأدوات -->
+    <section class="tools-header container">
+        <h2 class="section-title">جميع الأدوات</h2>
+        <p>اختر الأداة التي تحتاجها وابدأ العمل فورًا</p>
+    </section>
 
-        <!-- 🟦 أدوات PDF -->
-        <section id="pdf-tools" class="tool-section fade-in">
-            <h2>أدوات PDF</h2>
+    <!-- كروت الأدوات -->
+    <section class="tools-grid container">
 
-            <div class="tool-selector">
+        <div class="tool-card">
+            <i class="fas fa-image"></i>
+            <h3>تجهيز صورة أبشر</h3>
+            <p>تهيئة الصورة تلقائيًا لمتطلبات منصة أبشر.</p>
+            <button class="btn btn-primary" onclick="openTool('absher')">فتح الأداة</button>
+        </div>
 
-                <button class="tool-btn" data-tool="merge-pdf">
-                    <i class="fas fa-object-group"></i>
-                    <span>دمج ملفات PDF</span>
-                </button>
+        <div class="tool-card">
+            <i class="fas fa-file-arrow-up"></i>
+            <h3>تحويل صورة إلى PDF</h3>
+            <p>حوّل أي صورة إلى ملف PDF بسهولة.</p>
+            <button class="btn btn-primary" onclick="openTool('img2pdf')">فتح الأداة</button>
+        </div>
 
-                <button class="tool-btn" data-tool="compress-pdf">
-                    <i class="fas fa-compress-alt"></i>
-                    <span>ضغط PDF</span>
-                </button>
+        <div class="tool-card">
+            <i class="fas fa-file-arrow-down"></i>
+            <h3>تحويل PDF إلى صور</h3>
+            <p>استخرج كل صفحات PDF كصور عالية الجودة.</p>
+            <button class="btn btn-primary" onclick="openTool('pdf2img')">فتح الأداة</button>
+        </div>
 
-                <button class="tool-btn" data-tool="split-pdf">
-                    <i class="fas fa-columns"></i>
-                    <span>تقسيم PDF</span>
-                </button>
+        <div class="tool-card">
+            <i class="fas fa-compress"></i>
+            <h3>ضغط الصور</h3>
+            <p>قلل حجم الصور بدون فقدان كبير للجودة.</p>
+            <button class="btn btn-primary" onclick="openTool('compress')">فتح الأداة</button>
+        </div>
 
-                <button class="tool-btn" data-tool="pdf-to-img">
-                    <i class="fas fa-file-image"></i>
-                    <span>PDF إلى صور</span>
-                </button>
+        <div class="tool-card">
+            <i class="fas fa-crop"></i>
+            <h3>قص الصور</h3>
+            <p>قص الصور بسهولة وبالدقة المطلوبة.</p>
+            <button class="btn btn-primary" onclick="openTool('crop')">فتح الأداة</button>
+        </div>
 
-                <button class="tool-btn" data-tool="img-to-pdf">
-                    <i class="fas fa-images"></i>
-                    <span>صور إلى PDF</span>
-                </button>
+        <div class="tool-card">
+            <i class="fas fa-rotate"></i>
+            <h3>تدوير الصور</h3>
+            <p>تدوير الصور لليمين أو اليسار أو 180°.</p>
+            <button class="btn btn-primary" onclick="openTool('rotate')">فتح الأداة</button>
+        </div>
 
-                <button class="tool-btn" data-tool="ocr-pdf">
-                    <i class="fas fa-text-height"></i>
-                    <span>استخراج النصوص OCR</span>
-                </button>
-
-                <button class="tool-btn" data-tool="remove-pages">
-                    <i class="fas fa-trash-alt"></i>
-                    <span>إزالة صفحات</span>
-                </button>
-
-                <button class="tool-btn" data-tool="reorder-pages">
-                    <i class="fas fa-sort"></i>
-                    <span>إعادة ترتيب الصفحات</span>
-                </button>
-
-            </div>
-        </section>
-
-        <!-- 🟧 أدوات الصور -->
-        <section id="image-tools" class="tool-section fade-in">
-            <h2>أدوات الصور</h2>
-
-            <div class="tool-selector">
-
-                <button class="tool-btn" data-tool="crop-image">
-                    <i class="fas fa-crop"></i>
-                    <span>قص الصورة</span>
-                </button>
-
-                <button class="tool-btn" data-tool="resize-image">
-                    <i class="fas fa-expand-arrows-alt"></i>
-                    <span>تغيير الحجم</span>
-                </button>
-
-                <button class="tool-btn" data-tool="convert-image">
-                    <i class="fas fa-sync-alt"></i>
-                    <span>تغيير الصيغة</span>
-                </button>
-
-                <button class="tool-btn" data-tool="enhance-image">
-                    <i class="fas fa-magic"></i>
-                    <span>تحسين الجودة</span>
-                </button>
-
-                <button class="tool-btn" data-tool="rotate-image">
-                    <i class="fas fa-redo"></i>
-                    <span>تدوير الصورة</span>
-                </button>
-
-                <button class="tool-btn" onclick="openAbsherTool()">
-                    <i class="fas fa-id-card"></i>
-                    <span>تجهيز صورة أبشر</span>
-                </button>
-
-            </div>
-        </section>
-
-    </main>
+    </section>
 
     <!-- الفوتر -->
     <footer class="footer">
@@ -149,11 +95,16 @@
         </div>
     </footer>
 
-    <!-- سكربت الثيم -->
-    <script src="ui-theme.js"></script>
-
-    <!-- سكربت الأدوات -->
     <script src="tools-engine.js"></script>
+
+    <script>
+        const menuToggle = document.getElementById("menuToggle");
+        const nav = document.querySelector(".nav");
+
+        menuToggle.addEventListener("click", () => {
+            nav.classList.toggle("open");
+        });
+    </script>
 
 </body>
 </html>
